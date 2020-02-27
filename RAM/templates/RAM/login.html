@@ -1,43 +1,27 @@
 {% load static %}
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 <!------ Include the above in your HEAD tag ---------->
 
 <html>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="Styles/jquery-3.3.1.min.js" type="text/javascript"></script>
-        <script src="Styles/bootstrap-4.1.0.min.js" type="text/javascript"></script>
-        <link href="Styles/bootstrap-4.1.0.min.css" rel="stylesheet" type="text/css"/>
-        <link href="Styles/MainStyle.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" type="text/css" href="{% static 'RAM/login.css' %}">
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <title></title>
     </head>
     <body>
-        <?php
-        session_start();
-        ?>
-        <div class="col-md-5 container register">
+        
+        <div class="col-sm-5 container register">
             <div class="row">
-                <div class="col-md-12">
-                    <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Student Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Faculty Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="admin-tab" data-toggle="tab" href="#admin" role="tab" aria-controls="admin" aria-selected="false">Admin Login</a>
-                        </li>
-                    </ul>
+                <div class="col-sm-12">
                     <div class="tab-content" id="myTabContent">
-                        <div class="col-md-10 tab-pane fade show active text-align form-new" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <h3 class="register-heading">Student Login</h3>
+                        <div class="col-sm-10 tab-pane fade show active text-align form-new" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <h3 class="register-heading">Login</h3>
                             <div class="row register-form">
-                                <div class="col-md-12">
+                                <div class="col-sm-10">
                                     <form method="post">
                                         <div class="form-group">
                                             <input type="text" name="LGform1_user" class="form-control" placeholder="Your Email *" value="" required=""/>
@@ -47,50 +31,14 @@
                                         </div>
                                         <div class="form-group">
                                             <input type="submit" name="LGform1" class="btnContactSubmit" value="Login" />
-                                            <a href="ForgetPassword.php" class="btnForgetPwd" value="Login">Forget Password?</a>
+                                            <a href="#" class="btnForgetPwd" value="Login">Forget Password?</a>
+                                            <br><br>
+                                            <a href="{% url 'register' %}" class="btnForgetPwd" value = "register">Sign Up</a>
                                         </div>
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-10 tab-pane fade show text-align form-new" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <h3  class="register-heading">Faculty Login</h3>
-                            <div class="row register-form">
-                                <div class="col-md-12">
-                                    <form method="post">
-                                        <div class="form-group">
-                                            <input type="text" name="LGform2_user" class="form-control" placeholder="Your Email *" value="" required="" />
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" name="LGform2_pwd" class="form-control" placeholder="Your Password *" value="" required=""/>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="submit" name="LGform2" class="btnContactSubmit" value="Login" />
-                                            <a href="ForgetPassword.php" class="btnForgetPwd" value="Login">Forget Password?</a>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-10 tab-pane fade show text-align form-new" id="admin" role="tabpanel" aria-labelledby="admin-tab">
-                            <h3  class="register-heading">Admin Login</h3>
-                            <div class="row register-form">
-                                <div class="col-md-12">
-                                    <form method="post">
-                                        <div class="form-group">
-                                            <input type="text" name="LGform3_user" class="form-control" placeholder="Your Email *" value="" required="" />
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" name="LGform3_pwd" class="form-control" placeholder="Your Password *" value="" required=""/>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="submit" name="LGform3" class="btnContactSubmit" value="Login" />
-                                            <a href="ForgetPassword.php" class="btnForgetPwd" value="Login">Forget Password?</a>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
             </div>

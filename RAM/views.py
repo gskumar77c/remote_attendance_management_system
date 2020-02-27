@@ -18,6 +18,9 @@ posts = [
 ]
 def login(request):
     	return render(request,'RAM/login.html')
+
+def register(request):
+	return render(request,'RAM/register.html')
 def home(request):
 	print(request)
 	return render(request,'RAM/home.html')
