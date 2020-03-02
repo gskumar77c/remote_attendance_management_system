@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from authentication import views as myauth_views
 
+
+#path('RAM/',include('RAM.urls')),
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('RAM/',include('RAM.urls'))
+    path('',include('authentication.urls')),
+    path('',include('users.urls')),
 ]

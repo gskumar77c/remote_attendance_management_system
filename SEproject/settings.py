@@ -27,11 +27,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'authentication.User'
+
+LOGIN_REDIRECT_URL = 'auth-interface'
 
 # Application definition
 
 INSTALLED_APPS = [
-    'RAM.apps.RamConfig',
+    'authentication.apps.AuthenticationConfig',
+    'users.apps.UsersConfig',
+    'business_entities.apps.BusinessEntitiesConfig',
+    #'RAM.apps.RamConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -75,10 +81,15 @@ WSGI_APPLICATION = 'SEproject.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'remoteattendancemanagement',
+            'USER': 'raavan27',
+            'PASSWORD': '27$rn@*72',
+            'HOST': '127.0.0.1',
+            'PORT': '5432',
+        }
 }
 
 
