@@ -31,6 +31,8 @@ AUTH_USER_MODEL = 'authentication.User'
 
 LOGIN_REDIRECT_URL = 'auth-interface'
 
+LOGIN_URL = 'login'
+
 # Application definition
 
 INSTALLED_APPS = [

@@ -23,6 +23,8 @@ class UserManager(BaseUserManager):
 			password=password,
 		)
 		user.staff = True
+		user.student = False
+		user.faculty = True
 		user.save()
 		return user
 

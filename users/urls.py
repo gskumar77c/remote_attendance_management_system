@@ -1,6 +1,6 @@
 from django.urls import path,include
 from . import views
-from django.contrib.auth import views as auth_views
+
 
 
 urlpatterns = [
@@ -8,5 +8,6 @@ urlpatterns = [
     path('admin_home/',views.admin_home,name='admin-home'),
     path('faculty_home/',views.faculty_home,name='faculty-home'),
     path('student_home/',views.student_home,name='student-home'),
+    path('',include('business_entities.urls')),
     
 ]

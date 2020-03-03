@@ -1,9 +1,35 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>student home</title>
-</head>
-<body>
-<h1>student home page , nav-links for profile,addcourses,view registerd courses,attendacne ,logout etc</h1>
-</body>
-</html>
+{% extends "users/base.html" %}
+{% block content %}
+  <h1>Welcome to the portal !</h1>
+    <div class="container">
+   <a href="{% url 'courses' %}" class="btn btn-primary" role="button">courses</a>
+   </div>
+  
+  <main role="main" >
+    <br>
+    <div class="row">
+      <div class="col-md-3">
+      	<div class="container">
+        <h1>student home page , nav-links for profile,addcourses,view registerd courses,attendacne ,logout etc</h1>
+		</div>
+      </div>
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <div class="content-section">
+          <h3>Quick links</h3>
+          <p class='text-muted'>
+            <ul class="list-group">
+              <li class="list-group-item list-group-item-light">Latest Posts</li>
+              <li class="list-group-item list-group-item-light">Announcements</li>
+              <li class="list-group-item list-group-item-light">Calendars</li>
+              <li class="list-group-item list-group-item-light">etc</li>
+            </ul>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock content %}
+
+
+

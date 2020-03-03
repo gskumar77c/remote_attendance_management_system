@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+
 
 posts = [
 	{'course_no' : 'cs77cc$$',
@@ -17,6 +19,8 @@ posts = [
 
 ]
 
+
+@login_required
 def courses(request):
 	context = {'posts' : posts}
-	return render(request,'RAM/courses.html',context)
+	return render(request,'business_entities/courses.html',context)
