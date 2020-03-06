@@ -1,4 +1,4 @@
-# Temporary remote_attendance_management_system
+# remote_attendance_management_system
 
 To run the code : 
 
