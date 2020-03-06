@@ -19,3 +19,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# admin username: user
+# admin password: pass
+# admin emailid: nikhilhpallegar383@gmail.com
