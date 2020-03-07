@@ -1,0 +1,40 @@
+{% load extra_templates %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<title>{{ title }}</title>
+<div class="row" style="background-color:grey; height:30px;" >
+<div class="col-sm-1"></div>
+<div class="col-sm-5" style="font-weight: bold; font-size: large;" > DATABASE MANAGEMENT SYSTEM - ITU Ropar</div>
+<!-- <div class="col-sm-1"></div> -->
+<div class="col-sm-6" >
+  <div class="row">
+  <div class="col-sm-{{ navbar|gaps }} " ></div>
+  {% for field in navbar %}
+  <div class="col-sm-1">
+    <a href= '{{ field|atindex:1 }}' style="color:ivory;" >{{ field|atindex:0 }}</a>
+    <!-- <button onclick="location.href = '{{ field|atindex:1 }}';" id="myButton" class="float-left submit-button" >{{ field|atindex:0 }}</button> -->
+   </div>  
+  {% endfor %}
+</div>
+
+</div>
+<!-- <div class="col-sm-1" style="background-color: antiquewhite;">
+sdguhiofjlkn
+</div> -->
+
+</div>
+
+{% block content %}
+
+{% endblock %}
+
+</body>
+</html> 
