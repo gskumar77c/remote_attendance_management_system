@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'profiles'
+    'profiles',
+    'institution'
 ]
 
 MIDDLEWARE = [
@@ -128,4 +129,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 # print()
-STATIC_URL ='/static678/'
+STATIC_URL ='/static/'
