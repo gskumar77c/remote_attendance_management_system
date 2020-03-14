@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.shortcuts import redirect
 
 urlpatterns = [
+    # path('',redi  rect('/institution/')),
     path('admin/', admin.site.urls),
-    path('',include('institution.urls'))
+    path('institution/',include('institution.urls')),
+    path('profiles/',include('profiles.urls'))
+    # path('courses/',include('courses.urls'))
 ]

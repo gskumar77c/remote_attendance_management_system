@@ -1,0 +1,4 @@
+class constants:
+    home_page_loggedin={"title":"Home","navbar":[["Logout","../profile/logout"],["Dashboard","../profile/dashboard"],["courses","../courses"]],"type":"Logout","type_link":"../profiles/logout"}
+    home_page_loggedout={"title":"Home","navbar":[["Login","../profile/login"],["Register","../profiles/register"]],"type":"Login","type_link":"../profiles/login","name":"Not signed in"}
+    # home_page_loggedin={"title":"Home","navbar":[["Logout","../profile/logout"],["Dashboard","../profile/dashboard"],["Registered courses","../courses/registered"],["All courses","../courses/courses"]]}

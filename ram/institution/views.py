@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from institution.models import public_announcements
-
+from profiles.constants.constants import constants
 # Create your views here.
 def announcement_reader(arg):
     info=[]
@@ -16,6 +16,7 @@ def home(request):
     info=announcement_reader(res)
     title="Home"
     navbar=[["login","#"]]
+    
     # handle logged in state differently
 
     return render(request,'calendar.html',{"title":"wel","info":info,'navbar':navbar})

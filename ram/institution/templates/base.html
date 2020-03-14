@@ -18,9 +18,19 @@
 
   <!-- Custom styles for this template -->
   <link href="{% static "side/simple-sidebar.css" %}" rel="stylesheet">
-
+  <!-- <link rel="stylesheet" href="src/jquery.m.toast.css">
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="src/jquery.m.toast.js"></script> -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+<!-- <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script> -->
+<link rel="stylesheet" type="text/css" href="css/toastr.css" media="all">
+<!-- <script type="text/javascript" src="{% static 'js/toastr.min.js' %}"></script>  -->
 </head>
-
+<!-- {% if messages %}
+        {% for message in messages %}
+        aa  <script>.toast({html: "{{message}}", classes: 'blue rounded', displayLength:2000});</script>
+        {% endfor %}
+    {% endif %} -->
 <body>
 
   <div class="d-flex" id="wrapper">
@@ -70,8 +80,17 @@
           </ul>
         </div>
       </nav>
-
+    
+        <!-- {% for message in messages %}
+        
+        <script> .toast({html: "{{message}}", classes: 'blue rounded', displayLength:2000});</script>
+        {% endfor %} -->
+  
+      {% for message in messages %} 
+       <a>{{ message }}</a>
+     {% endfor %}
       <div class="container-fluid">
+        <br><br><br>
         {% block content %}
         <!-- <h1 class="mt-4">Simple Sidebar</h1>
         <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
