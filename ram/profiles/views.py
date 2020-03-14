@@ -8,20 +8,23 @@ from django.contrib import messages
 from datetime import date
 
 
-def configure_base(arg,name="none"):
+def configure_base(arg,name="Not logged in "):
     data=constants.home_page_loggedout
+
     if arg=='register':        
         data["title"]="Registration"
         data["navbar"]=[["Home","../institution"],["Login","./login"]]
         data["type"]="Login"
         data["type_link"]="./login"
         data["form"]=register_form()
+        data["name"]=name
         return data
     if arg=="login":
         data["title"]="Login"
         data["navbar"]=[["Home","../institution"],["Register","./register"]]
         data["type"]="Register"
         data["type_link"]="./register"
+        data["name"]=name
         data["form"]=login_form()
         return data
     if arg=="dashboard":
@@ -30,13 +33,19 @@ def configure_base(arg,name="none"):
         data["type"]="Logout"
         data["type_link"]="./logout"
         data["name"]=name
+        data["form"]={}
         return data
 
 
 def register(request):
 
+    nameheader="Not logged in"
+    if "username" in request.session:
+        nameheader=request.session["username"]
+        redirect('./logout')
+
     if request.method=="GET":
-        data=configure_base("register")
+        data=configure_base("register",nameheader)
         return render(request,"register.html",data)
 
     else:
@@ -49,13 +58,18 @@ def register(request):
             form.doj=date.today()
             form.save()
             messages.success(request, f"Registration Successfull")
-            return redirect('../login')
+            return redirect('./login')
         else:
             messages.success(request, f"Registration Failed")
             return redirect('./register')
 
 
 def login(request):
+
+    nameheader="Not logged in"
+    if "username" in request.session:
+        return redirect('./logout')
+
     if request.method == "GET":
         data=configure_base("login")
         request.session.set_test_cookie()
@@ -65,20 +79,30 @@ def login(request):
             messages.success(request,f"cookies not available")
             return redirect('./login')
         form=login_form(request.POST)
-        email=form.cleaned_data["email"]
-        password=form.cleaned_data["password"]    
-        result=user.verify_user(email,password)
-        if result:
-            request.session["username"]=email
-            return redirect('./dashboard')
-def dashboard(request):
-    username=request.session["username"]
-    if username is  None:
+        if form.is_valid():
+            form=form.cleaned_data
+            email=form["email"]
+            password=form["password"]
+            print(email,password)
+            # print(type(form),form,"<<<<<<<<<")    
+            result=user.verify_user(email,password)
+            if result:
+                request.session["username"]=email
+                return redirect('./dashboard')
         return redirect('./login')
-    data=configure_base("dashboard")
+
+def dashboard(request):
+
+    nameheader="Not logged in"
+    if "username" in request.session:
+        nameheader=request.session["username"]
+    else:
+        return redirect('./login')
+    data=configure_base("dashboard",nameheader)
     return render(request,'dashboard.html',data)
 
 def logout(request):
+    
     try:
         del request.session['username']
     except KeyError:

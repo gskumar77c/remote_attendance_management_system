@@ -7,4 +7,6 @@ urlpatterns = [
     # path("logout",views.logout),
     path("register",views.register),
     # path("update", views.update)
+    path('dashboard',views.dashboard),
+    path('logout',views.logout)
 ]

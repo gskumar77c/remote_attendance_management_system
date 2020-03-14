@@ -9,11 +9,12 @@ class register_form(forms.ModelForm):
     # test=forms.CharField()
     class Meta:
         model = user
-        fields = '__all__'
-        # fields=('email','dob')
+        # fields = '__all__'
+        fields=('email','full_name','dob','image','password')
         widgets = {
             'dob': forms.DateInput(attrs={'type': 'date'}),
-            'password':forms.PasswordInput()
+            'password':forms.PasswordInput(),
+            'email':forms.EmailInput()
         }
     # def clean(self):
     #     cleaned_data = super(register_form, self).clean()
@@ -39,4 +40,8 @@ class register_form(forms.ModelForm):
 
 class login_form(forms.Form):
     email=forms.EmailField()
-    password=forms.PasswordInput()
+    password=forms.CharField(max_length=100)
+    widgets={
+        'email':forms.EmailInput(),
+        'password':forms.PasswordInput()
+    }
