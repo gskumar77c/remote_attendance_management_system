@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 
 
 class register_form(forms.ModelForm):
-    # test=forms.CharField()
+
     class Meta:
         model = user
         # fields = '__all__'
@@ -16,32 +16,8 @@ class register_form(forms.ModelForm):
             'password':forms.PasswordInput(),
             'email':forms.EmailInput()
         }
-    # def clean(self):
-    #     cleaned_data = super(register_form, self).clean()
-    #     password = cleaned_data.get("password")
-    #     confirm_password = cleaned_data.get("confirm_password")
-
-    #     if password != conf irm_password:
-    #         raise forms.ValidationError(
-    #             "password and confirm_password does not match"
-    #         )
-    # def save(self):
-    #     # return 
-    #     # print(self["username"])
-    #     # print(self)
-    #     # self._mutable = True
-    #     # new=make_password(self.cleaned_data['password'])
-    #     # self['password']=new
-    #     # self._mutable=False
-    #     # print(">>",self.cleaned_data)
-    #     # # request.POST["password"]=new
-    #     # print("\n***8 check here \n",self)
-    #     return super().save()
 
 class login_form(forms.Form):
-    email=forms.EmailField()
-    password=forms.CharField(max_length=100)
-    widgets={
-        'email':forms.EmailInput(),
-        'password':forms.PasswordInput()
-    }
+    email=forms.EmailField(widget=forms.EmailInput)
+    password = forms.CharField(widget=forms.PasswordInput,max_length=100)
+    

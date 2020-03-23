@@ -1,13 +1,31 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %}   
 
 
 
 {% block content %}
-    <!-- <form method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
+<!-- <form method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn-primary">Save</button>
     </form> -->
-    <h2>
-        Welcome {{name}} to the Dashboard !
-    </h2>
+<h2>
+    Welcome {{name}} to the Dashboard !
+</h2>
+<hr>
+<div class="row" >
+    <div class="col-lg-8">
+        {% for key,value in user_details.items %}
+        <a>
+            {{ key }} - {{ value }}
+        </a>
+
+        <br>
+        {% endfor %}
+    </div>
+    <div class="col-sm-4">
+        <img src="../media/profile_pictures/u2gmail.com.png">
+    </div>
+</div>
+
+
+
 {% endblock %}

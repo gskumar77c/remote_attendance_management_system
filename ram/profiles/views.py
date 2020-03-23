@@ -6,6 +6,7 @@ from .forms import *
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from datetime import date
+from .models import user
 
 
 def configure_base(arg,name="Not logged in "):
@@ -34,6 +35,9 @@ def configure_base(arg,name="Not logged in "):
         data["type_link"]="./logout"
         data["name"]=name
         data["form"]={}
+        user_details=user.get_userdetails(name)
+        data["user_details"]=user_details
+
         return data
 
 
@@ -99,6 +103,7 @@ def dashboard(request):
     else:
         return redirect('./login')
     data=configure_base("dashboard",nameheader)
+    
     return render(request,'dashboard.html',data)
 
 def logout(request):
