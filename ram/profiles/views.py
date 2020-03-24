@@ -60,8 +60,12 @@ def register(request):
             form.password = hashed_password
             form.status=False
             form.doj=date.today()
-            form.save()
-            messages.success(request, f"Registration Successfull")
+            try:
+                form.save()
+                messages.success(request, f"Registration Successfull")
+            except:
+                messages.success(request,f"Registration Failed")
+
             return redirect('./login')
         else:
             messages.success(request, f"Registration Failed")
@@ -87,7 +91,7 @@ def login(request):
             form=form.cleaned_data
             email=form["email"]
             password=form["password"]
-            print(email,password)
+            # print(email,password)
             # print(type(form),form,"<<<<<<<<<")    
             result=user.verify_user(email,password)
             if result:
@@ -98,10 +102,18 @@ def login(request):
 def dashboard(request):
 
     nameheader="Not logged in"
-    if "username" in request.session:
-        nameheader=request.session["username"]
-    else:
+    if "username" not in request.session:
         return redirect('./login')
+        
+    nameheader=request.session["username"]
+    data=users.objects.get(name=nameheader)
+    data=data.model_to_dict()
+    status=data["status"]
+    if not status:
+        qtype=data["type"]
+        # if qtype=="student":
+        #     nameheader=nameheader
+
     data=configure_base("dashboard",nameheader)
     
     return render(request,'dashboard.html',data)

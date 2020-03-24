@@ -11,7 +11,8 @@ class courses(models.Model):
     id=models.CharField(name="course id", max_length=5,unique=True,null=False)
     department=models.ForeignKey(departements)
     instructors=models.ManyToManyField(instructor)
-    students=models.ManyToManyField(students)
+    enrolled_students=models.ManyToManyField(students)
+    pending_students=models.ManyToManyField(students)
     pre_requisites=models.ManyToManyField(courses)
     status=models.CharField(name="status",max_length=20,choices=course_statuses)
 
