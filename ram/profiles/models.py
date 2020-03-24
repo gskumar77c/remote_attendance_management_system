@@ -4,6 +4,7 @@ from django.forms.models import model_to_dict
 from django.db.models import signals
 from django.dispatch import receiver
 from courses.models import courses
+from institution.models import departements
 import os
 # from django.contrib.auth.models import User
 
@@ -64,6 +65,15 @@ def add_user(sender,instance,created, **kwargs):
 class students(models.Model):
     id=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
     courses_completed=models.ManyToManyField(courses)
+
+class instructor(models.Model):
+    id=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
+    department=models.ForeignKey(departements)
+
+class ta(models.Model):
+    id=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
+    department=models.ForeignKey(departements)
+
 
 
 
