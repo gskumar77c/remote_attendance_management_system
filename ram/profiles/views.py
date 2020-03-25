@@ -7,6 +7,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from datetime import date
 from .models import user
+from django.forms.models import model_to_dict
 
 
 def configure_base(arg,name="Not logged in "):
@@ -106,11 +107,11 @@ def dashboard(request):
         return redirect('./login')
         
     nameheader=request.session["username"]
-    data=users.objects.get(name=nameheader)
-    data=data.model_to_dict()
+    data=user.objects.get(email=nameheader)
+    data=model_to_dict(data)
     status=data["status"]
     if not status:
-        qtype=data["type"]
+        qtype=data["qualification"]
         # if qtype=="student":
         #     nameheader=nameheader
 
