@@ -9,26 +9,26 @@ student_course_statuses=[("requested","requested"),("enrolled","enrolled"),("com
 
 class course(models.Model):
     name=models.CharField(verbose_name="course name",max_length=20,unique=True,null=False)
-    id=models.CharField(verbose_name="course id", max_length=5,unique=True,null=False)
-    department=models.ForeignKey(institution_module.departements,on_delete=models.CASCADE)
+    course_id=models.CharField(verbose_name="course id", max_length=5,unique=True,null=False)
+    department=models.ForeignKey(departements,on_delete=models.CASCADE)
     pre_requisites=models.ManyToManyField("self")
     status=models.CharField(verbose_name="status",max_length=20,choices=course_statuses)
 
-class course_student_log(models.Model)
-    course=models.ForeignKey(course)
-    date=models.datetime(verbose_name="date")
-    name=models.ForeignKey(students)
+class course_student_log(models.Model):
+    course=models.ForeignKey(course,on_delete=models.CASCADE)
+    date=models.DateField(verbose_name="date")
+    name=models.ForeignKey(students,on_delete=models.CASCADE)
     action=models.CharField(max_length=10,choices=student_course_statuses)
 
-class course_instructor_log(models.Model)
-    course=models.ForeignKey(course)
-    date=models.datetime(verbose_name="date")
+class course_instructor_log(models.Model):
+    course=models.ForeignKey(course,on_delete=models.CASCADE)
+    date=models.DateField(verbose_name="date")
     name=models.ForeignKey(instructor,on_delete=models.CASCADE)
     action=models.CharField(max_length=10,choices=[("joined","joined"),("left","left")])
 
-class course_ta_log(models.Model)
-    course=models.ForeignKey(course)
-    date=models.datetime(verbose_name="date")
+class course_ta_log(models.Model):
+    course=models.ForeignKey(course,on_delete=models.CASCADE)
+    date=models.DateField(verbose_name="date")
     name=models.ForeignKey(ta,on_delete=models.CASCADE)
     action=models.CharField(max_length=10,choices=[("joined","joined"),("left","left")])
 
@@ -36,12 +36,12 @@ class attendance(models.Model):
     date=models.DateField(verbose_name="attendance date",null=False)
     slot=models.ForeignKey(period_slots,on_delete=models.CASCADE)
     entry_timestamp=models.DateTimeField(verbose_name="timestamp of entry")
-    course=models.ForeignKey(courses,on_delete=models.CASCADE)
-    roll_calls=models.ManyToManyField(profiles_module.students)
+    course=models.ForeignKey(course,on_delete=models.CASCADE)
+    roll_calls=models.ManyToManyField(students)
     image=models.ImageField(verbose_name="image")
     is_extra=models.BooleanField(verbose_name="extra class",default=False)
 
 
 class time_table(models.Model):
     slot=models.ForeignKey(period_slots,on_delete=models.CASCADE)
-    courses=models.ManyToManyField(courses)
+    courses=models.ManyToManyField(course)
