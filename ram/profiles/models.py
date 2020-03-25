@@ -3,8 +3,12 @@ from django.contrib.auth.hashers import check_password
 from django.forms.models import model_to_dict
 from django.db.models import signals
 from django.dispatch import receiver
-from courses.models import courses
+
+# from courses.models import courses
 from institution.models import departements
+
+
+
 import os
 # from django.contrib.auth.models import User
 
@@ -12,6 +16,10 @@ import os
 
 qualification_type=[('student','student'),('ta','ta'),('instructor','instructor')]
 
+def content_file_name(self,instance, filename):
+        # instance.
+        filename = "%s.%s" % (instance.email, "jpg")
+        return os.path.join('profile_pictures', filename)
 
 
 class user(models.Model):
@@ -27,10 +35,8 @@ class user(models.Model):
     qualification=models.CharField("Qualification",max_length=10,choices=qualification_type,null=False,default='student')
     password=models.TextField("password",null=False)    
     
-    def content_file_name(self,instance, filename):
-        # instance.
-        filename = "%s.%s" % (instance.email, "jpg")
-        return os.path.join('profile_pictures', filename)
+    
+    
 
     @classmethod
     def verify_user(cls,emailinput,password):
@@ -52,6 +58,22 @@ class user(models.Model):
         print(filtered)
         return filtered
 
+
+class students(models.Model):
+    id=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
+
+
+class instructor(models.Model):
+    id=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
+    department=models.ForeignKey(departements,on_delete=models.CASCADE)
+
+class ta(models.Model):
+    id=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
+    department=models.ForeignKey(departements,on_delete=models.CASCADE)
+
+
+
+
 @receiver(signals.post_save, sender=user)
 def add_user(sender,instance,created, **kwargs):
     # print(instance.model_to_dict())
@@ -61,22 +83,6 @@ def add_user(sender,instance,created, **kwargs):
         if type=="student":
             res=students.objects.get()
         # res=.objects.get(email=instance)
-
-class students(models.Model):
-    id=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
-    courses_completed=models.ManyToManyField(courses)
-
-class instructor(models.Model):
-    id=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
-    department=models.ForeignKey(departements)
-
-class ta(models.Model):
-    id=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
-    department=models.ForeignKey(departements)
-
-
-
-
 
 
     # pass

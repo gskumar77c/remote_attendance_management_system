@@ -25,11 +25,16 @@ class login_form(forms.Form):
 class student_registration(forms.ModelForm):
     class Meta:
         model=students
+        fields='__all__'
 
 class instructor_registration(forms.ModelForm):
     class Meta:
         model=students
+        fields='__all__'
+
 
 class ta_registration(forms.ModelForm):
     class Meta:
         model=students
+        fields='__all__'
+
