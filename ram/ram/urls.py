@@ -18,10 +18,12 @@ from django.urls import path,include
 from . import views
 
 urlpatterns = [
+    
     path('troubleshoot/add',views.initialize_database),
     # path('troubleshoot/delete')
     path('admin/', admin.site.urls),
     path('institution/',include('institution.urls')),
     path('profiles/',include('profiles.urls')),
-    path('courses/',include('courses.urls'))
+    path('courses/',include('courses.urls')),
+    path('',views.initialize_database)
 ]

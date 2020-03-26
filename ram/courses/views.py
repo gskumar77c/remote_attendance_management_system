@@ -10,4 +10,3 @@ def all_courses(request):
     username=request.session["username"]
     qtype=request.session["qualification"]
     
-        
