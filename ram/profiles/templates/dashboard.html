@@ -1,4 +1,4 @@
-{% extends 'base.html' %}   
+{% extends 'base.html' %}
 
 
 
@@ -11,21 +11,37 @@
     Welcome {{name}} to the Dashboard !
 </h2>
 <hr>
-<div class="row" >
-    <div class="col-lg-8">
-        {% for key,value in user_details.items %}
-        <a>
-            {{ key }} - {{ value }}
-        </a>
+</h2>
 
-        <br>
-        {% endfor %}
+{% if information %}
+
+<h2>
+    {{ information }}
+
+    <hr>
+    {% endif %}
+    <h3>
+        Your Profile
+    </h3>
+    <div class="row">
+        <div class="col-lg-8">
+            {% for key,value in user_details.items %}
+            <a>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-2">{{ key }} </div>
+                    <div class="col-sm-2">{{ value }}</div>
+                </div>
+            </a>
+
+            <br>
+            {% endfor %}
+        </div>
+        <div class="col-sm-4">
+            <img src="../media/profile_pictures/u2gmail.com.png">
+        </div>
     </div>
-    <div class="col-sm-4">
-        <img src="../media/profile_pictures/u2gmail.com.png">
-    </div>
-</div>
 
 
 
-{% endblock %}
+    {% endblock %}

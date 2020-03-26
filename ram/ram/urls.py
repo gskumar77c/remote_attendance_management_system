@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from django.shortcuts import redirect
+from . import views
 
 urlpatterns = [
-    # path('',redi  rect('/institution/')),
+    path('troubleshoot/add',views.initialize_database),
+    # path('troubleshoot/delete')
     path('admin/', admin.site.urls),
     path('institution/',include('institution.urls')),
     path('profiles/',include('profiles.urls'))

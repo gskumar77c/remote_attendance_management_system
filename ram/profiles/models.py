@@ -55,7 +55,7 @@ class user(models.Model):
         result=cls.objects.get(email=emaild)
         result=model_to_dict(result)
         filtered = { your_key: result[your_key] for your_key in ['email','full_name','dob','doj','image','description'] }
-        print(filtered)
+        # print(filtered)
         return filtered
 
 
@@ -74,14 +74,14 @@ class ta(models.Model):
 
 
 
-@receiver(signals.post_save, sender=user)
-def add_user(sender,instance,created, **kwargs):
-    # print(instance.model_to_dict())
-    data=instance.model_to_dict()
-    if data["status"]:
-        type=data["qualification"]
-        if type=="student":
-            res=students.objects.get()
+# @receiver(signals.post_save, sender=user)
+# def add_user(sender,instance,created, **kwargs):
+#     # print(instance.model_to_dict())
+#     data=instance.model_to_dict()
+#     if data["status"]:
+#         type=data["qualification"]
+#         if type=="student":
+#             res=students.objects.get()
         # res=.objects.get(email=instance)
 
 

@@ -21,6 +21,7 @@ def configure_base(arg,name="Not logged in "):
         data["form"]=register_form()
         data["name"]=name
         return data
+
     if arg=="login":
         data["title"]="Login"
         data["navbar"]=[["Home","../institution"],["Register","./register"]]
@@ -29,7 +30,8 @@ def configure_base(arg,name="Not logged in "):
         data["name"]=name
         data["form"]=login_form()
         return data
-    if arg=="dashboard":
+
+    if arg=="dashboard-open":
         data["title"]="Dashboard"
         data["navbar"]=[["Home","../institution"],["Logout","./logout"],["Courses","../courses"]]
         data["type"]="Logout"
@@ -38,6 +40,18 @@ def configure_base(arg,name="Not logged in "):
         data["form"]={}
         user_details=user.get_userdetails(name)
         data["user_details"]=user_details
+        return data
+
+    if arg=="dashboard-close":
+        data["title"]="Dashboard"
+        data["navbar"]=[["Home","../institution"],["Logout","./logout"]]
+        data["type"]="Logout"
+        data["type_link"]="./logout"
+        data["name"]=name
+        data["form"]={}
+        user_details=user.get_userdetails(name)
+        data["user_details"]=user_details
+        data["information"]="Your application is  in pending with the admin"
 
         return data
 
@@ -107,15 +121,13 @@ def dashboard(request):
         return redirect('./login')
         
     nameheader=request.session["username"]
-    data=user.objects.get(email=nameheader)
-    data=model_to_dict(data)
-    status=data["status"]
-    if not status:
-        qtype=data["qualification"]
-        # if qtype=="student":
-        #     nameheader=nameheader
-
-    data=configure_base("dashboard",nameheader)
+    user_info=user.objects.get(email=nameheader)
+    user_info=model_to_dict(user_info)
+    status=user_info["status"]
+    if not status:        
+        data=configure_base("dashboard-close",nameheader)
+    else:
+        data=configure_base("dashboard-open",nameheader)        
     
     return render(request,'dashboard.html',data)
 
