@@ -108,9 +108,10 @@ def login(request):
             password=form["password"]
             # print(email,password)
             # print(type(form),form,"<<<<<<<<<")    
-            result=user.verify_user(email,password)
+            result,qualifcation=user.verify_user(email,password)
             if result:
                 request.session["username"]=email
+                request.session["qualification"]=qualifcation                
                 return redirect('./dashboard')
         return redirect('./login')
 
@@ -135,6 +136,7 @@ def logout(request):
     
     try:
         del request.session['username']
+        del request.session["qualification"]
     except KeyError:
         pass
     return redirect('../institution')

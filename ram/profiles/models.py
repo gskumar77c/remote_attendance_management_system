@@ -46,9 +46,10 @@ class user(models.Model):
             user=cls.objects.get(email=emailinput)
             user_password=getattr(user,'password')
             result=check_password(password,user_password)
-            return result
+            qualification=getattr(qualification)
+            return result,qualification
         except: 
-            return False
+            return False,""
 
     @classmethod
     def get_userdetails(cls,emaild):

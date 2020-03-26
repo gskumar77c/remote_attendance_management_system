@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from django.shortcuts import redirect
 from . import views
 
 urlpatterns = [
@@ -23,6 +22,6 @@ urlpatterns = [
     # path('troubleshoot/delete')
     path('admin/', admin.site.urls),
     path('institution/',include('institution.urls')),
-    path('profiles/',include('profiles.urls'))
-    # path('courses/',include('courses.urls'))
+    path('profiles/',include('profiles.urls')),
+    path('courses/',include('courses.urls'))
 ]
