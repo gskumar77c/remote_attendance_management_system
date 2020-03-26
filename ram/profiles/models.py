@@ -16,8 +16,9 @@ import os
 
 qualification_type=[('student','student'),('ta','ta'),('instructor','instructor')]
 
-def content_file_name(self,instance, filename):
+def content_file_name(instance,filename):
         # instance.
+        print(filename)
         filename = "%s.%s" % (instance.email, "jpg")
         return os.path.join('profile_pictures', filename)
 
