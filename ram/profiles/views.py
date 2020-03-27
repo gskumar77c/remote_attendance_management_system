@@ -106,8 +106,8 @@ def login(request):
             form=form.cleaned_data
             email=form["email"]
             password=form["password"]
-            # print(email,password)
-            # print(type(form),form,"<<<<<<<<<")    
+            print(email,password)
+            print(type(form),form,"<<<<<<<<<")    
             result,qualifcation=user.verify_user(email,password)
             if result:
                 request.session["username"]=email

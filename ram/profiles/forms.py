@@ -15,7 +15,7 @@ class register_form(forms.ModelForm):
             'dob': forms.DateInput(attrs={'type': 'date'}),
             'password':forms.PasswordInput(),
             'email':forms.EmailInput(),
-            'qualification':forms.ChoiceField()
+            # 'qualification':forms.ChoiceField()
         }
 
 class login_form(forms.Form):

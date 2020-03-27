@@ -18,7 +18,7 @@ qualification_type=[('student','student'),('ta','ta'),('instructor','instructor'
 
 def content_file_name(instance,filename):
         # instance.
-        print(filename)
+        # print(filename)
         filename = "%s.%s" % (instance.email, "jpg")
         return os.path.join('profile_pictures', filename)
 
@@ -47,9 +47,10 @@ class user(models.Model):
             user=cls.objects.get(email=emailinput)
             user_password=getattr(user,'password')
             result=check_password(password,user_password)
-            qualification=getattr(qualification)
+            qualification=getattr(user,'qualification')
             return result,qualification
-        except: 
+        except Exception as e:
+            print(e)
             return False,""
 
     @classmethod
