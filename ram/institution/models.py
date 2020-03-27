@@ -11,7 +11,10 @@ class public_announcements(models.Model):
     info=models.TextField(name='info')
 
 class departements(models.Model):
-    name=models.CharField(name="department",max_length=20,unique=True,null=False)
+	name=models.CharField(name="department",max_length=20,unique=True,null=False)
+
+	def __str__(self):
+		return self.department
 
 class period_slots(models.Model):
 	day=models.CharField(verbose_name="week day",choices=week_days,max_length=10)

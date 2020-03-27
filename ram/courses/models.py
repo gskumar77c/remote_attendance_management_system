@@ -8,11 +8,13 @@ course_statuses=[('floating','floating'),('closed','closed')]
 student_course_statuses=[("requested","requested"),("enrolled","enrolled"),("completed","completed"),("failed","failed")]
 
 class course(models.Model):
-    name=models.CharField(verbose_name="course name",max_length=20,unique=True,null=False)
+    name=models.CharField(verbose_name="course name",max_length=30,unique=True,null=False)
     course_id=models.CharField(verbose_name="course id", max_length=5,unique=True,null=False)
     department=models.ForeignKey(departements,on_delete=models.CASCADE)
-    pre_requisites=models.ManyToManyField("self")
+    pre_requisites=models.ManyToManyField("self",null=True,blank=True)
     status=models.CharField(verbose_name="status",max_length=20,choices=course_statuses)
+    def __str__(self):
+        return self.course_id + "    -    " + self.name
 
 class course_student_log(models.Model):
     course=models.ForeignKey(course,on_delete=models.CASCADE)
