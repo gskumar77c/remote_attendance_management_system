@@ -35,6 +35,10 @@ class user(models.Model):
     description=models.TextField("description",null=True)
     qualification=models.CharField("Qualification",max_length=10,choices=qualification_type,null=False,default='student')
     password=models.TextField("password",null=False)    
+
+
+    def __str__(self):
+        return self.email
     
     
     
@@ -65,10 +69,17 @@ class user(models.Model):
 class students(models.Model):
     id=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
 
+    def __str__(self):
+        return self.id.email
+
 
 class instructor(models.Model):
     id=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
     department=models.ForeignKey(departements,on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return self.id.email
 
 class ta(models.Model):
     id=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)

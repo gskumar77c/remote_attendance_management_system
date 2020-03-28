@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+	<div class="container">
+		<h3>Pending Courses</h3>
+		<table class="table table-hover">
+	 		<tr>
+	 			<th>course id</th>
+	 			<th>course name</th>
+	 			<th>course department</th>
+	 			<th>status</th>
+	 			<th>course details</th>
+
+	 		</tr>
+	 		{% for crse in pending_courses %}
+	 		<tr>
+	 			<td>{{crse.course.course_id}}</td>
+	 			<td>{{crse.course.name}}</td>
+	 			<td>{{crse.course.department}}</td>
+	 			<td>{{crse.action}}</td>
+	 			<td><a class="btn bg-success" href="{% url 'course-details' %}?id={{crse.course.course_id}}">view</a></td>
+	 		</tr>
+	 		{% endfor %}
+	 	</table>
+
+	</div>
+
+ 	<div class="container">
+ 		<h3>Enrolled Courses</h3>
+ 	<form action="{% url 'add-request' %}" method="POST">
+ 		{% csrf_token %}
+ 	<table class="table table-hover">
+ 		<tr>
+ 			<th>course id</th>
+ 			<th>course name</th>
+ 			<th>course department</th>
+ 			<th>course details</th>
+ 		</tr>
+ 		{% for crse in enrolled_courses %}
+ 		<tr>
+ 			{% if qtype == 'student' %}
+ 			<td>
+ 				<input type="checkbox" name="course" value="{{crse.course.course_id}}">
+ 				<label for = '{{crse.course.course_id}}'>{{crse.course.course_id}}</label>
+ 			</td>
+ 			{% else %}
+ 				<td>{{crse.course.course_id}}</td>
+ 			{% endif %}
+ 			<td>{{crse.course.name}}</td>
+ 			<td>{{crse.course.department}}</td>
+ 			<td><a class="btn bg-success" href="{% url 'course-details' %}?id={{crse.course.course_id}}">view</a></td>
+ 		</tr>
+ 		{% endfor %}
+ 	</table>
+ 	{% if qtype == 'student' %}
+ 	<button class="btn bg-warning" type="submit">DROP</button>
+ 	{% endif %}
+ 	</form>
+ 	</div>
+
+ 	<div class="container">
+		<h3>Completed Courses</h3>
+		<table class="table table-hover">
+	 		<tr>
+	 			<th>course id</th>
+	 			<th>course name</th>
+	 			<th>course department</th>
+	 			<th>status</th>
+	 			<th>course details</th>
+
+	 		</tr>
+	 		{% for crse in completed_courses %}
+	 		<tr>
+	 			<td>{{crse.course.course_id}}</td>
+	 			<td>{{crse.course.name}}</td>
+	 			<td>{{crse.course.department}}</td>
+	 			<td>{{crse.action}}</td>
+	 			<td><a class="btn bg-success" href="{% url 'course-details' %}?id={{crse.course.course_id}}">view</a></td>
+	 		</tr>
+	 		{% endfor %}
+	 	</table>
+
+	</div>
+
+
+<div class="container">
+		<h3>Failed Courses</h3>
+		<table class="table table-hover">
+	 		<tr>
+	 			<th>course id</th>
+	 			<th>course name</th>
+	 			<th>course department</th>
+	 			<th>status</th>
+	 			<th>course details</th>
+
+	 		</tr>
+	 		{% for crse in failed_courses %}
+	 		<tr>
+	 			<td>{{crse.course.course_id}}</td>
+	 			<td>{{crse.course.name}}</td>
+	 			<td>{{crse.course.department}}</td>
+	 			<td>{{crse.action}}</td>
+	 			<td><a class="btn bg-success" href="{% url 'course-details' %}?id={{crse.course.course_id}}">view</a></td>
+	 		</tr>
+	 		{% endfor %}
+	 	</table>
+
+	</div>
+
+
+
+ {% endblock %}
