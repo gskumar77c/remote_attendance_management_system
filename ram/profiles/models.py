@@ -5,7 +5,7 @@ from django.db.models import signals
 from django.dispatch import receiver
 
 # from courses.models import courses
-from institution.models import departements
+from institution.models import department
 
 
 
@@ -25,23 +25,25 @@ def content_file_name(instance,filename):
 
 class user(models.Model):
 
-    
-    email=models.EmailField("email",null=False,unique=True)
-    full_name=models.CharField(max_length=50,null=False)
-    dob=models.DateField("dob",null=False)
-    doj=models.DateField("doj",null=False)
-    image=models.ImageField("image",null=False,upload_to=content_file_name)
-    status=models.BooleanField("status",null=False,default=False)
-    description=models.TextField("description",null=True)
-    qualification=models.CharField("Qualification",max_length=10,choices=qualification_type,null=False,default='student')
-    password=models.TextField("password",null=False)    
+    # changes
+    email=models.EmailField(verbose_name="email ID",null=False,unique=True,primary_key=True)
+    # changes
+    # email=models.EmailField("email",null=False,unique=True)
+    full_name=models.CharField(verbose_name="Full name",max_length=50,null=False)
+    dob=models.DateField(verbose_name="Date of birth",null=False)
+    doj=models.DateField(verbose_name="Date of join",null=False)
+    image=models.ImageField(verbose_name="profile image",null=False,upload_to=content_file_name)
+    status=models.BooleanField(verbose_name="account status",null=False,default=False)
+    description=models.TextField(verbose_name="breif description",null=True)
+    qualification=models.CharField(verbose_name="qualification",max_length=10,choices=qualification_type,null=False,default='student')
+    password=models.TextField(verbose_name="password",null=False)    
     
     
     
 
     @classmethod
     def verify_user(cls,emailinput,password):
-        # hashed_password=make_password(password)
+        # hashed_password=make_password(password)  
         
         try:
             user=cls.objects.get(email=emailinput)
@@ -62,17 +64,18 @@ class user(models.Model):
         return filtered
 
 
-class students(models.Model):
-    id=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
+class student(models.Model):
+    user=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
+    semester=models.IntegerField(verbose_name="Current semester")
 
 
 class instructor(models.Model):
-    id=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
-    department=models.ForeignKey(departements,on_delete=models.CASCADE)
+    user=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
+    department=models.ForeignKey(department,on_delete=models.CASCADE)
 
 class ta(models.Model):
-    id=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
-    department=models.ForeignKey(departements,on_delete=models.CASCADE)
+    user=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
+    department=models.ForeignKey(department,on_delete=models.CASCADE)
 
 
 

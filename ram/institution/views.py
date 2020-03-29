@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from institution.models import public_announcements
+from institution.models import public_announcement
 from profiles.constants.constants import constants
 
 # Create your views here.
@@ -36,7 +36,7 @@ def announcement_reader(arg):
     return info
 
 def home(request):
-    res=public_announcements.objects.all()
+    res=public_announcement.objects.all()
     info=announcement_reader(res)
     title="Home"
     navbar=[["login","#"]]

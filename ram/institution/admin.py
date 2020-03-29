@@ -1,6 +1,6 @@
 from django.contrib import admin
-from institution.models import public_announcements,period_slots,departements
+from institution.models import public_announcement,period_slot,department
 # Register your models here.
-admin.site.register(public_announcements)
-admin.site.register(period_slots)
-admin.site.register(departements)
+admin.site.register(public_announcement)
+admin.site.register(period_slot)
+admin.site.register(department)

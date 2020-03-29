@@ -1,10 +1,34 @@
+
 {% extends 'base.html' %}
 
+{% load static %}
 
 
 {% block content %}
+<script src="{%static "interactive.js" %}"></script>
+<link href="{% static "hiding.css" %}" rel="stylesheet">
     <form method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn-primary">Save</button>
+        {{ form_user.as_p }}
+        <br>
+        <hr width="75%">
+<!--        <div class="initial_hiding">-->
+        <input type="text" name="qtypeform" id="reg_name" style="visibility: hidden">
+        <h4 id="reg_name" name="qtypeform" ></h4>
+<!--        </div>-->
+        <!-- <label for id="qtype"  -->
+        <div class="initial_hiding" id="student" >
+        {{ form_student.as_p }}
+        </div>
+        <div class="initial_hiding" id="instructor" >
+        {{ form_instructor.as_p }}
+        </div>
+        <div class="initial_hiding" id="ta" >
+        {{ form_ta.as_p }}
+        </div  >
+       
+        <button id="next" onclick="new_form()" >
+            Next
+        </button>
+        <button type="submit" id="submit" class="btn-primary" style="visibility:hidden;" >Save</button>
     </form>
 {% endblock %}
