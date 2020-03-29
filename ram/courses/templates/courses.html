@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<!--     <select multiple="multiple" name="courses" id='allcourses'>
+    	{% for course in courses %}
+    		<option value="{{course.course_id}}"><p>{{course.course_id}}   {{course.name}} {{course.department}}   {{course.status}}</p></option>
+    	{% endfor %}
+    	
+    </select>
+ -->
+
+ 	<div class="container">
+ 		<!-- <ul>
+ 			{% for course in courses %}
+ 			<li class="list-group-item">
+ 				<div class="checkbox">
+ 					<input type="checkbox" name="test">
+ 					<label for = '{{course.course_id}}'>{{course.course_id}} {{course.name}}</label>
+ 				</div>
+ 			</li>
+ 			{% endfor %}
+ 		</ul>
+ -->
+ 	<table class="table table-condensed">
+ 		<tr>
+ 			<th>course id</th>
+ 			<th>course name</th>
+ 			<th>course department</th>
+ 			<th>view course details</th>
+ 		</tr>
+ 		{% for course in courses %}
+ 		<tr>
+ 			<td>{{course.course_id}}</td>
+ 			<td>{{course.name}}</td>
+ 			<td>{{course.department}}</td>
+ 			<td><a class="btn bg-success" href="{% url 'course-details' %}?id={{course.course_id}}">view</a></td>
+ 		</tr>
+ 		{% endfor %}
+ 	</table>
+ 	</div>
+
+
+ {% endblock %}
