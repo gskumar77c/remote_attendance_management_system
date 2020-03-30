@@ -5,7 +5,7 @@ from django.db.models import signals
 from django.dispatch import receiver
 
 # from courses.models import courses
-from institution.models import department
+from institution.models import department as department_model
 
 
 
@@ -72,21 +72,23 @@ class student(models.Model):
     semester=models.IntegerField(verbose_name="Current semester")
 
     def __str__(self):
-        return self.id.email
+        return self.user.email
 
 
 class instructor(models.Model):
     user=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
-    department=models.ForeignKey(department,on_delete=models.CASCADE)
+    department=models.ForeignKey(department_model,on_delete=models.CASCADE)
 
 
     def __str__(self):
-        return self.id.email
+        return self.user.email
 
 class ta(models.Model):
     user=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
-    department=models.ForeignKey(department,on_delete=models.CASCADE)
-
+    department=models.ForeignKey(department_model,on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.user.email
 
 
 

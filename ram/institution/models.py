@@ -10,7 +10,7 @@ class public_announcement(models.Model):
     date=models.DateTimeField(name='date',primary_key=True)
     info=models.TextField(name='info')
 
-class departements(models.Model):
+class department(models.Model):
 	name=models.CharField(name="department",max_length=20,unique=True,null=False,primary_key=True)
 
 	def __str__(self):

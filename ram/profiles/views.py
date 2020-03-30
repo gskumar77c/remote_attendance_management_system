@@ -6,24 +6,29 @@ from .forms import *
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from datetime import date
-from .models import user,student,instructor,ta
+from .models import user as user_model
+from .models import student as student_model
+from .models import instructor as instructor_model
+from .models import ta as ta_model
+
+# from .models import user,student,instructor,ta as user_model,student_model,instructor_model,ta_model
 from django.forms.models import model_to_dict
 
 def get_modelclass(qtype):
-    print(qtype)
+    # print(qtype)
     if qtype=="student":
-        return student
+        return student_model
     elif qtype=="instructor":
-        return instructor
+        return instructor_model
     elif qtype=="ta":
-        return ta
+        return ta_model
 
 def get_modelform(qtype):
     if qtype=="student":
         return student_registration
     elif qtype=="instructor":
         return instructor_registration
-    elif type=="ta":
+    elif qtype=="ta":
         return ta_registration
 
 
@@ -60,7 +65,7 @@ def configure_base(arg,name="Not logged in "):
         data["type_link"]="./logout"
         data["name"]=name
         data["form"]={}
-        user_details=user.get_userdetails(name)
+        user_details=user_model.get_userdetails(name)
         data["user_details"]=user_details
         return data
 
@@ -71,7 +76,7 @@ def configure_base(arg,name="Not logged in "):
         data["type_link"]="./logout"
         data["name"]=name
         data["form"]={}
-        user_details=user.get_userdetails(name)
+        user_details=user_model.get_userdetails(name)
         data["user_details"]=user_details
         data["information"]="Your application is  in pending with the admin"
 
@@ -98,40 +103,17 @@ def register(request):
         form_user = register_form(request.POST,request.FILES,prefix="user")
         
         if form_user.is_valid() and extended_form.is_valid():
-            # hashed_password=make_password(form_user.cleaned_data['password'])
-            # qtype=form_user.cleaned_data["qualification"]
+            
             user_email=form_user.cleaned_data["email"]
             form_user = form_user.save(commit=False)
-            # form_user.password = hashed_password
             form_user.status=False
             form_user.doj=date.today()
-            # form.id=form.email
-            # qtype=form_user.cleaned_data["qualification"]
-            # extended_form_type=get_modelform(qtype)
-            # extended_form=extended_form_type(request.POST,prefix=qtype)
-            # print(form_user,":"*10)
-            
-            # extended_form.email=<user: user object ("+user_email+")>
             try:
-                # print(form_user,extended_form)
                 form_user.save()
                 extended_form=extended_form.save(commit=False)
-                # extended_form.save()
-                # if extended_form.is_valid():
-                #     extended_form.save(commit=False)
-                obj=user.objects.get(email=user_email)
+                obj=user_model.objects.get(email=user_email)
                 extended_form.user=obj
                 extended_form.save()
-                #     extended_form.cleaned_data['email']="<user: user object ("+user_email+")>"
-                #     print(extended_form,user_email)
-                #     extended_form.save()
-                
-                # else:
-                #     print(extended_form.errors)
-                #     print("exetended invalid")
-                
-                
-
                 messages.success(request, f"Registration Successfull")
             except Exception as e:
                 print(e)
@@ -142,7 +124,7 @@ def register(request):
             return redirect('./login')
         else:
             print("form not valid\n",form_user.errors,"\n",extended_form.errors,"\n")
-            print("not valid")
+            # print("not valid")
             messages.success(request, f"Registration Failed")
             return redirect('./register')
 
@@ -168,13 +150,14 @@ def login(request):
             form=form.cleaned_data
             email=form["email"]
             password=form["password"]
-            print(email,password)
+            # print(email,password)
             
-            result,qualifcation=user.verify_user(email,password)
+            result,qualifcation=user_model.verify_user(email,password)
             if result:
                 request.session["username"]=email
                 request.session["qualification"]=qualifcation                
                 return redirect('./dashboard')
+        messages.success(request, f"Credentials wrong")
         return redirect('./login')
 
 def dashboard(request):
@@ -184,10 +167,10 @@ def dashboard(request):
         return redirect('./login')
         
     nameheader=request.session["username"]
-    user_info=user.objects.get(email=nameheader)
-    # user_info=model_to_dict(user_info)
-    status=user_info.getattr("status"]
-    qtype=user_info["qualification"]
+    user_info=user_model.objects.get(email=nameheader)
+    status=getattr(user_info,"status")
+    qtype=getattr(user_info,"qualification")
+
     if not status:
         data=configure_base("dashboard-close",nameheader)
         qualification_based_model=get_modelclass(qtype)

@@ -1,7 +1,13 @@
 from django import forms
 # from django.contrib.auth.forms import UserCreationForm
 
-from .models import user,student,instructor,ta
+# from .models import user,student,instructor,ta
+
+from .models import user as user_model
+from .models import student as student_model
+from .models import instructor as instructor_model
+from .models import ta as ta_model
+
 from django.contrib.auth.hashers import make_password
 
 
@@ -15,7 +21,7 @@ class register_form(forms.ModelForm):
     prefix="user"
 
     class Meta:
-        model = user
+        model = user_model
         # fields = '__all__'
         fields=('email','full_name','dob','image','password','qualification')
         ## change
@@ -34,7 +40,7 @@ class login_form(forms.Form):
 class student_registration(forms.ModelForm):
     prefix="student"
     class Meta:
-        model=student
+        model=student_model
         # fields='__all__'
         fields=('semester',)
         # exclude=['email']
@@ -42,7 +48,7 @@ class student_registration(forms.ModelForm):
 class instructor_registration(forms.ModelForm):
     prefix="instructor"
     class Meta:
-        model=instructor
+        model=instructor_model
         fields=('department',)
         # exclude=['email']
 
@@ -51,6 +57,6 @@ class instructor_registration(forms.ModelForm):
 class ta_registration(forms.ModelForm):
     prefix="ta"
     class Meta:
-        model=ta
+        model=ta_model
         fields=('department',)
         # exclude=['email']

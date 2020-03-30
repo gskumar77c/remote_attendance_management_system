@@ -3,8 +3,14 @@ from django.shortcuts import redirect
 from django.forms.models import model_to_dict
 from django.contrib import messages
 from profiles.constants.constants import constants
-from . import models
-from profiles import models as profile_models
+from .models import course as course_model
+from .models import course_student_log,course_instructor_log,course_ta_log
+from profiles.models import user as user_model
+from profiles.models import student as student_model
+from profiles.models import instructor as instructor_model
+from profiles.models import ta as ta_model
+
+
 from datetime import date
 # Create your views here.
 
@@ -41,7 +47,7 @@ def all_courses(request):
 	data = configure_base('courses','logged_in')
 
 	# list of all courses
-	courses = models.course.objects.all().order_by('department')
+	courses = course_model.objects.all().order_by('department')
 	data['courses'] = list(courses)
 	data['qtype'] = qtype
 	return render(request,'courses.html',data)
@@ -55,7 +61,7 @@ def coursedetails(request):
 
 	courseid = request.GET.get('id')
 	data = configure_base('courses','logged_in')
-	details = models.course.objects.get(course_id = courseid)
+	details = course_model.objects.get(course_id = courseid)
 	data['details'] = details
 	return render(request,'coursedetails.html',data)
 
@@ -67,7 +73,7 @@ def show_floated_courses(request):
 	qtype=request.session["qualification"]
 
 	data = configure_base('courses','logged_in')
-	floated_courses = models.course.objects.filter(status='floating').order_by('department')
+	floated_courses = course_model.objects.filter(status='floating').order_by('department')
 	data['courses'] = list(floated_courses)
 	data['qtype'] = qtype
 	return render(request,'floatedcourses.html',data)
@@ -84,14 +90,14 @@ def send_request(request):
 		course_list = request.POST.getlist('course')
 		message_string = ""
 		for courseid in course_list:
-			course = models.course.objects.get(course_id=courseid)
+			course = course_model.objects.get(course_id=courseid)
 			date1 = date.today()
-			name = profile_models.students.objects.get(id__email = username)
+			name = student_model.objects.get(user = username)
 			action = 'requested'
 			try:
-				q = models.course_student_log.objects.filter(course=course,name=name)
+				q = course_student_log.objects.filter(course=course,name=name)
 				if q.__len__()==0:
-					reqcourse = models.course_student_log(course = course,date = date1,name = name,action=action)
+					reqcourse = course_student_log(course = course,date = date1,name = name,action=action)
 					reqcourse.save()
 				else :
 					message_string = message_string + f" {course.course_id} already in pending, \n"
@@ -111,10 +117,10 @@ def enrolled_courses(request):
 
 	data = configure_base('courses','logged_in')
 	data['qtype'] = qtype
-	enrolled_courses = models.course_student_log.objects.filter(name__id__email = username,action='enrolled')
-	pending_courses = models.course_student_log.objects.filter(name__id__email=username,action='requested')
-	completed_courses = models.course_student_log.objects.filter(name__id__email=username,action='completed')
-	failed_courses = models.course_student_log.objects.filter(name__id__email=username,action='failed')
+	enrolled_courses = course_student_log.objects.filter(name = username,action='enrolled')
+	pending_courses = course_student_log.objects.filter(name=username,action='requested')
+	completed_courses = course_student_log.objects.filter(name=username,action='completed')
+	failed_courses = course_student_log.objects.filter(name=username,action='failed')
 	data['completed_courses'] = list(completed_courses)
 	data['failed_courses'] = list(failed_courses)
 	data['pending_courses'] = list(pending_courses)
