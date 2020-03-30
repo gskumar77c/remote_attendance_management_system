@@ -2,36 +2,18 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.forms.models import model_to_dict
 from django.contrib import messages
-from profiles.constants.constants import constants
 from .models import course as course_model
 from .models import course_student_log,course_instructor_log,course_ta_log
 from profiles.models import user as user_model
 from profiles.models import student as student_model
 from profiles.models import instructor as instructor_model
 from profiles.models import ta as ta_model
-
+from .page_config import configure_base
 
 from datetime import date
 # Create your views here.
 
-def configure_base(arg,name):
-    data=constants.home_page_loggedout
-    if arg=='courses':        
-        data["title"]="courses"
-        if name == "logged_in":
-            data["navbar"]=[["Dashboard","../profiles/dashboard"],["Enrolled Courses","../courses/enrolled_courses"],["Floated Courses","../courses/floated_courses"],["Logout","../profiles/logout"]]
-            data["type"]="Logout"
-            data["type_link"]="../profiles/logout"
-            data["name"]=name
-            data["form"]={}
-        else:
-            data["navbar"]=[["Login","../profiles/login"]]
-            data["type"]="Login"
-            data["type_link"]="../profiles/login"
-            data["name"]=name
-            data["form"]={}
-        
-        return data
+
 
 
 def all_courses(request):

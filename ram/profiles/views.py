@@ -10,6 +10,7 @@ from .models import user as user_model
 from .models import student as student_model
 from .models import instructor as instructor_model
 from .models import ta as ta_model
+from .page_config import configure_base
 
 # from .models import user,student,instructor,ta as user_model,student_model,instructor_model,ta_model
 from django.forms.models import model_to_dict
@@ -34,53 +35,6 @@ def get_modelform(qtype):
 
 
 
-def configure_base(arg,name="Not logged in "):
-    data=constants.home_page_loggedout
-
-    if arg=='register':        
-        data["title"]="Registration"
-        data["navbar"]=[["Home","../institution"],["Login","./login"]]
-        data["type"]="Login"
-        data["type_link"]="./login"
-        data["form_user"]=register_form()
-        data["form_student"]=student_registration()
-        data["form_instructor"]=instructor_registration()
-        data["form_ta"]=ta_registration()
-        data["name"]=name
-        return data
-
-    if arg=="login":
-        data["title"]="Login"
-        data["navbar"]=[["Home","../institution"],["Register","./register"]]
-        data["type"]="Register"
-        data["type_link"]="./register"
-        data["name"]=name
-        data["form"]=login_form()
-        return data
-
-    if arg=="dashboard-open":
-        data["title"]="Dashboard"
-        data["navbar"]=[["Home","../institution"],["Logout","./logout"],["Courses","../courses"]]
-        data["type"]="Logout"
-        data["type_link"]="./logout"
-        data["name"]=name
-        data["form"]={}
-        user_details=user_model.get_userdetails(name)
-        data["user_details"]=user_details
-        return data
-
-    if arg=="dashboard-close":
-        data["title"]="Dashboard"
-        data["navbar"]=[["Home","../institution"],["Logout","./logout"]]
-        data["type"]="Logout"
-        data["type_link"]="./logout"
-        data["name"]=name
-        data["form"]={}
-        user_details=user_model.get_userdetails(name)
-        data["user_details"]=user_details
-        data["information"]="Your application is  in pending with the admin"
-
-        return data
 
 
 def register(request):

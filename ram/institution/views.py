@@ -1,28 +1,11 @@
 from django.shortcuts import render
 from institution.models import public_announcement as public_announcement_model
 from profiles.constants.constants import constants
+from .page_config import configure_base
 
 # Create your views here.
 
-def configure_base(arg,name):
-    data=constants.home_page_loggedout
-    if arg=='home':        
-        data["title"]="Home"
-        if name!="Not logged in":
-            data["navbar"]=[["Dashboard","../profiles/dashboard"],["Logout","../profiles/logout"],["Courses","../courses"]]
-            data["type"]="Logout"
-            data["type_link"]="../profiles/logout"
-            data["name"]=name
-            data["form"]={}
-        else:
-            
-            data["navbar"]=[["Login","../profiles/login"]]
-            data["type"]="Login"
-            data["type_link"]="../profiles/login"
-            data["name"]=name
-            data["form"]={}
-        
-        return data
+
 
 def announcement_reader(arg):
     info=[]
