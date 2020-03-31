@@ -26,5 +26,6 @@ urlpatterns = [
     path('institution/',include('institution.urls')),
     path('profiles/',include('profiles.urls')),
     path('courses/',include('courses.urls')),
+    path('attendance/',include('attendance.urls')),
     path('',views.initialize_database)
 ]

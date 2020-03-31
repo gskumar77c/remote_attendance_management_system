@@ -32,22 +32,18 @@ class course_instructor_log(models.Model):
     date=models.DateField(verbose_name="date")
     name=models.ForeignKey(instructor_model,on_delete=models.CASCADE)
     action=models.CharField(max_length=10,choices=[("joined","joined"),("left","left")])
+    def __str__(self):
+        return self.name.user.email + "  -  " + self.course.course_id + "   -   " + self.action
 
 class course_ta_log(models.Model):
     course=models.ForeignKey(course,on_delete=models.CASCADE)
     date=models.DateField(verbose_name="date")
     name=models.ForeignKey(ta_model,on_delete=models.CASCADE)
     action=models.CharField(max_length=10,choices=[("joined","joined"),("left","left")])
+    def __str__(self):
+        return self.name.user.email + "  -  " + self.course.course_id + "   -   " + self.action
 
-class attendance(models.Model):
-    attendance_verbose=models.CharField(max_length=50,primary_key=True)
-    date=models.DateField(verbose_name="attendance date",null=False)
-    slot=models.ForeignKey(period_slot_model,on_delete=models.CASCADE)
-    entry_timestamp=models.DateTimeField(verbose_name="timestamp of entry")
-    course=models.ForeignKey(course,on_delete=models.CASCADE)
-    roll_calls=models.ManyToManyField(student_model)
-    image=models.ImageField(verbose_name="image")
-    is_extra=models.BooleanField(verbose_name="extra class",default=False)
+
 
 
 class time_table(models.Model):

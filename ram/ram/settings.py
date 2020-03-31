@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'profiles',
     'institution',
     'courses',
+    'attendance',
     'restapi',
     'rest_framework'
 ]
