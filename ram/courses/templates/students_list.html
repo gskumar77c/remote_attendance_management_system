@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+
+ 	<div class="container">
+ 		{% if list_type == 'requests' %}
+ 		<h3>Add Requests to Enroll in {{courseid}} Course</h3>
+ 		{% elif list_type == 'enrolled' %}
+ 		<h3>List of Enrolled students in {{courseid}} Course</h3>
+ 		{% else %}
+ 		<h3>Attendance of the Enrolled students in {{courseid}} Course</h3>
+ 		{% endif %}
+
+ 	<form action="{% url 'student-requests' %}" method="POST">
+ 		{% csrf_token %}
+ 		<input type="text" name="courseid" hidden="True" value="{{courseid}}">
+ 		<input type="text" name="list_type" hidden="True" value="{{list_type}}">
+  	<table class="table table-hover">
+ 		<tr>
+ 			<th>email</th>
+ 			<th>name</th>
+ 			<th>date requested</th>
+ 			{% if list_type == 'attendance' %}
+ 			<th>Attendance</th>
+ 			{% endif %}
+
+ 		</tr>
+ 		{% for crse in student_list %}
+ 		<tr>
+ 			{% if list_type == 'requests' %}
+ 			<td>
+ 				<input type="checkbox" name="student" value="{{crse.name.id.email}}">
+ 				<label for = '{{crse.name.id.email}}'>{{crse.name.id.email}}</label>
+ 			</td>
+ 			{% else %}
+ 			<td>{{crse.name.id.email}}</td>
+ 			{% endif %}
+ 			<td>{{crse.name.id.full_name}}</td>
+ 			<td>{{crse.date}}</td>
+ 			{% if list_type == 'attendance' %}
+ 			<td>To be implemented</td>
+ 			{% endif %}
+ 		</tr>
+ 		{% endfor %}
+ 	</table>
+ 	{% if list_type == 'requests' %}
+ 	<button class="btn bg-warning" type="submit">Accept</button>
+ 	{% endif %}
+ 	</form>
+ 	</div>
+
+
+ {% endblock %}
