@@ -4,8 +4,10 @@
 
 <form action="" method="POST"  class="post-form" enctype="multipart/form-data">
 <hr>
+     {% csrf_token %} 
 {{ form.as_p }}
 <hr>
+<button class="btn-primary" type="submit">Submit</button>
 </form>
 
 {% endblock %}

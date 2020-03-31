@@ -9,6 +9,9 @@ from profiles.models import ta as ta_model
 from datetime import datetime
 # Create your views here.
 
+def verify_authority(data):
+    return True
+
 def web_input(request):
     if "username" not in request.session:
         return redirect('../profiles/login')
@@ -30,11 +33,13 @@ def web_input(request):
         form=attendance_register_form(request.POST,request.FILES)
         if form.is_valid():
             data=form.cleaned_data
+            verbose_name=attendance_register.generate_attendance_verobose(data)
             if not verify_authority(data):
                 messages.success(request,f"no privilage for this action")
                 return redirect('../home')
             form=form.save(commit=False)
-            form.attendance_verobose=attendance_register.generate_attendance_verobose(form)
+            form.attendance_verbose=verbose_name
+            print(form.attendance_verbose,"|"*10)
             if qtype=="ta":
                 obj=ta_model.objects.get(user__email=username)
                 form.entry_ta=obj
@@ -44,7 +49,7 @@ def web_input(request):
                 form.entry_instructor=obj
             form.entry_timestamp=datetime.today()
             form.save()
-            messages.success(f,"sent files for marking attendance")
+            messages.success(request,f"sent files for marking attendance")
             return redirect('.')
             
             

@@ -17,6 +17,9 @@ Thumbs.db
 *.jpg
 *.png
 
+# zip folder
+*.zip
+
 # python caches
 *.pyc
 *.pyo
