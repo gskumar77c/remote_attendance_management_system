@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'courses',
     'attendance',
     'restapi',
-    # 'rest_framework'
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
