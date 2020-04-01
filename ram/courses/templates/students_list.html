@@ -32,13 +32,13 @@
  		<tr>
  			{% if list_type == 'requests' %}
  			<td>
- 				<input type="checkbox" name="student" value="{{crse.name.id.email}}">
- 				<label for = '{{crse.name.id.email}}'>{{crse.name.id.email}}</label>
+ 				<input type="checkbox" name="student" value="{{crse.name.user.email}}">
+ 				<label for = '{{crse.name.user.email}}'>{{crse.name.user.email}}</label>
  			</td>
  			{% else %}
- 			<td>{{crse.name.id.email}}</td>
+ 			<td>{{crse.name.user.email}}</td>
  			{% endif %}
- 			<td>{{crse.name.id.full_name}}</td>
+ 			<td>{{crse.name.user.full_name}}</td>
  			<td>{{crse.date}}</td>
  			{% if list_type == 'attendance' %}
  			<td>To be implemented</td>

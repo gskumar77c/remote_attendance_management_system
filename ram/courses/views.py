@@ -6,6 +6,7 @@ from profiles.constants.constants import constants
 from . import models
 from profiles import models as profile_models
 from datetime import date
+import datetime
 # Create your views here.
 
 def configure_base(arg,name,qtype):
@@ -72,7 +73,7 @@ def show_floated_courses(request):
 			for courseid in course_list:
 				course = models.course.objects.get(course_id=courseid)
 				date1 = date.today()
-				name = profile_models.students.objects.get(id__email = username)
+				name = profile_models.student.objects.get(user__email = username)
 				action = 'requested'
 				try:
 					q = models.course_student_log.objects.filter(course=course,name=name)
@@ -88,7 +89,7 @@ def show_floated_courses(request):
 			for courseid in course_list:
 				course = models.course.objects.get(course_id=courseid)
 				date1 = date.today()
-				name = profile_models.ta.objects.get(id__email = username)
+				name = profile_models.ta.objects.get(user__email = username)
 				action = 'joined'
 				try:
 					q = models.course_ta_log.objects.filter(course=course,name=name)
@@ -104,7 +105,7 @@ def show_floated_courses(request):
 			for courseid in course_list:
 				course = models.course.objects.get(course_id=courseid)
 				date1 = date.today()
-				name = profile_models.instructor.objects.get(id__email = username)
+				name = profile_models.instructor.objects.get(user__email = username)
 				action = 'joined'
 				try:
 					q = models.course_instructor_log.objects.filter(course=course,name=name)
@@ -139,7 +140,7 @@ def send_request(request):
 			for courseid in course_list:
 				course = models.course.objects.get(course_id=courseid)
 				date1 = date.today()
-				name = profile_models.students.objects.get(id__email = username)
+				name = profile_models.student.objects.get(user__email = username)
 				action = 'requested'
 				try:
 					q = models.course_student_log.objects.filter(course=course,name=name)
@@ -155,7 +156,7 @@ def send_request(request):
 			for courseid in course_list:
 				course = models.course.objects.get(course_id=courseid)
 				date1 = date.today()
-				name = profile_models.ta.objects.get(id__email = username)
+				name = profile_models.ta.objects.get(user__email = username)
 				action = 'joined'
 				try:
 					q = models.course_ta_log.objects.filter(course=course,name=name)
@@ -171,7 +172,7 @@ def send_request(request):
 			for courseid in course_list:
 				course = models.course.objects.get(course_id=courseid)
 				date1 = date.today()
-				name = profile_models.instructor.objects.get(id__email = username)
+				name = profile_models.instructor.objects.get(user__email = username)
 				action = 'joined'
 				try:
 					q = models.course_instructor_log.objects.filter(course=course,name=name)
@@ -196,10 +197,10 @@ def enrolled_courses(request):
 
 	data = configure_base('courses','logged_in',qtype)
 	data['qtype'] = qtype
-	enrolled_courses = models.course_student_log.objects.filter(name__id__email = username,action='enrolled')
-	pending_courses = models.course_student_log.objects.filter(name__id__email=username,action='requested')
-	completed_courses = models.course_student_log.objects.filter(name__id__email=username,action='completed')
-	failed_courses = models.course_student_log.objects.filter(name__id__email=username,action='failed')
+	enrolled_courses = models.course_student_log.objects.filter(name__user__email = username,action='enrolled')
+	pending_courses = models.course_student_log.objects.filter(name__user__email=username,action='requested')
+	completed_courses = models.course_student_log.objects.filter(name__user__email=username,action='completed')
+	failed_courses = models.course_student_log.objects.filter(name__user__email=username,action='failed')
 	data['completed_courses'] = list(completed_courses)
 	data['failed_courses'] = list(failed_courses)
 	data['pending_courses'] = list(pending_courses)
@@ -216,11 +217,11 @@ def joined_courses(request):
 	data = configure_base('courses','logged_in',qtype)
 	data['qtype'] = qtype
 	if qtype == 'instructor' :
-		joined_courses = models.course_instructor_log.objects.filter(name__id__email = username,action='joined')
-		left_courses = models.course_instructor_log.objects.filter(name__id__email=username,action='left')
+		joined_courses = models.course_instructor_log.objects.filter(name__user__email = username,action='joined')
+		left_courses = models.course_instructor_log.objects.filter(name__user__email=username,action='left')
 	else :
-		joined_courses = models.course_ta_log.objects.filter(name__id__email = username,action='joined')
-		left_courses = models.course_ta_log.objects.filter(name__id__email=username,action='left')
+		joined_courses = models.course_ta_log.objects.filter(name__user__email = username,action='joined')
+		left_courses = models.course_ta_log.objects.filter(name__user__email=username,action='left')
 	data['joined_courses'] = list(joined_courses)
 	data['left_courses'] = list(left_courses)
 	return render(request,'joined_courses.html',data)
@@ -239,7 +240,7 @@ def student_requests(request):
 		message_string = ""
 		for student in selected_students:
 				try:
-					q = models.course_student_log.objects.filter(course__course_id=courseid,name__id__email=student)
+					q = models.course_student_log.objects.filter(course__course_id=courseid,name__user__email=student)
 					if q.__len__() != 0:
 						print(q)
 						for ele in q:
@@ -268,6 +269,5 @@ def student_requests(request):
 		student_list = models.course_student_log.objects.filter(course__course_id=courseid,action='enrolled')
 	data['student_list'] = student_list
 	return render(request,'students_list.html',data)
-
 
 
