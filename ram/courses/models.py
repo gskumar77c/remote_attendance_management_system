@@ -8,7 +8,7 @@ from profiles.models import ta as ta_model
 
 course_statuses=[('floating','floating'),('closed','closed')]
 
-student_course_statuses=[("requested","requested"),("enrolled","enrolled"),("completed","completed"),("failed","failed")]
+student_course_statuses=[("requested","requested"),("enrolled","enrolled"),("completed","completed"),("failed","failed"),("dropped","dropped")]
 
 class course(models.Model):
     name=models.CharField(verbose_name="course name",max_length=30,unique=True,null=False)
