@@ -90,11 +90,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'ram',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': 'raavan77c',
         'HOST': 'localhost',
         'PORT': '',
     }
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

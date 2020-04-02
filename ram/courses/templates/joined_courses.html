@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+
+ 	<div class="container">
+ 	{% if joined_courses %}
+ 		<h3>Joined Courses</h3>
+  	<table class="table table-hover">
+ 		<tr>
+ 			<th>course id</th>
+ 			<th>course name</th>
+ 			<th>course department</th>
+ 			<th>-</th>
+
+ 		</tr>
+ 		{% for crse in joined_courses %}
+ 		<tr>
+ 			<td>{{crse.course.course_id}}</td>
+ 			<td>{{crse.course.name}}</td>
+ 			<td>{{crse.course.department}}</td>
+ 			<td>
+ 				<a class="btn bg-primary" href="{% url 'student-requests' %}?id={{crse.course.course_id}}&list_type=enrolled">Enrolled List
+ 				</a>
+ 				{% if qtype == 'instructor' %}
+ 				<a class="btn bg-success" href="{% url 'student-requests' %}?id={{crse.course.course_id}}&list_type=requests">Add Requests</a>
+ 				{% endif %}
+ 				<a class="btn bg-warning" href="{% url 'student-requests' %}?id={{crse.course.course_id}}&list_type=attendance">Attendance</a>
+ 				<a class="btn bg-secondary" href="{% url 'course-details' %}?id={{crse.course.course_id}}">Course Details</a>
+ 			</td>
+ 		</tr>
+ 		{% endfor %}
+ 	</table>
+ 	{% else %}
+	 	<p>You haven't joined in any courses</p>
+	{% endif %}
+ 	</div>
+
+ 	<div class="container">
+		<h3>Left Courses</h3>
+		{% if left_courses %}
+		<table class="table table-hover">
+	 		<tr>
+	 			<th>course id</th>
+	 			<th>course name</th>
+	 			<th>course department</th>
+	 			<th>-</th>
+
+	 		</tr>
+	 		{% for crse in left_courses %}
+	 		<tr>
+	 			<td>{{crse.course.course_id}}</td>
+	 			<td>{{crse.course.name}}</td>
+	 			<td>{{crse.course.department}}</td>
+	 			<td>{{crse.action}}</td>
+	 			<td>
+	 				<a class="btn bg-success" href="{% url 'course-details' %}?id={{crse.course.course_id}}">view Attendance</a>
+	 				<a class="btn bg-success" href="{% url 'course-details' %}?id={{crse.course.course_id}}">Student List</a>
+	 				<a class="btn bg-success" href="{% url 'course-details' %}?id={{crse.course.course_id}}">view course details</a>
+	 			</td>
+	 		</tr>
+	 		{% endfor %}
+	 	</table>
+	{% else %}
+	 	<p>You don't have any courses in this section</p>
+	{% endif %}
+	</div>
+
+
+
+ {% endblock %}

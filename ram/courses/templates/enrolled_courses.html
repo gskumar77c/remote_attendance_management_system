@@ -3,8 +3,9 @@
 
 
 {% block content %}
-	<div class="container">
-		<h3>Pending Courses</h3>
+	<div class="container">	
+	<h3>Pending Courses</h3>
+		{% if pending_courses %}
 		<table class="table table-hover">
 	 		<tr>
 	 			<th>course id</th>
@@ -12,7 +13,6 @@
 	 			<th>course department</th>
 	 			<th>status</th>
 	 			<th>course details</th>
-
 	 		</tr>
 	 		{% for crse in pending_courses %}
 	 		<tr>
@@ -24,19 +24,27 @@
 	 		</tr>
 	 		{% endfor %}
 	 	</table>
+	 	{% else %}
+	 	<p>You don't have any pending courses</p>
+	 	{% endif %}
 
 	</div>
 
+
+	<br><br>
  	<div class="container">
- 		<h3>Enrolled Courses</h3>
- 	<form action="{% url 'add-request' %}" method="POST">
+ 	<h3>Enrolled Courses</h3>
+ 	{% if enrolled_courses %}
+ 	<form action="{% url 'enrolled-courses' %}" method="POST">
  		{% csrf_token %}
  	<table class="table table-hover">
  		<tr>
  			<th>course id</th>
  			<th>course name</th>
  			<th>course department</th>
- 			<th>course details</th>
+ 			<th>View Attendance</th>
+ 			<th>Course Details</th>
+
  		</tr>
  		{% for crse in enrolled_courses %}
  		<tr>
@@ -50,7 +58,10 @@
  			{% endif %}
  			<td>{{crse.course.name}}</td>
  			<td>{{crse.course.department}}</td>
- 			<td><a class="btn bg-success" href="{% url 'course-details' %}?id={{crse.course.course_id}}">view</a></td>
+ 			<td><a class="btn bg-primary" href="{% url 'course-details' %}?id={{crse.course.course_id}}">Attendance</a>
+ 			</td>
+ 			<td>
+ 			<a class="btn bg-success" href="{% url 'course-details' %}?id={{crse.course.course_id}}">view</a></td>
  		</tr>
  		{% endfor %}
  	</table>
@@ -58,10 +69,16 @@
  	<button class="btn bg-warning" type="submit">DROP</button>
  	{% endif %}
  	</form>
+ 	{% else %}
+	 	<p>Currently you don't have any enrolled courses</p>
+	 {% endif %}
  	</div>
 
+
+	<br><br>
  	<div class="container">
-		<h3>Completed Courses</h3>
+	<h3>Completed Courses</h3>
+	{% if completed_courses %}
 		<table class="table table-hover">
 	 		<tr>
 	 			<th>course id</th>
@@ -81,12 +98,17 @@
 	 		</tr>
 	 		{% endfor %}
 	 	</table>
-
+	 {% else %}
+	 	<p>Currently you don't have any completed courses</p>
+	 {% endif %}
 	</div>
 
 
+
+<br><br>
 <div class="container">
-		<h3>Failed Courses</h3>
+	<h3>Failed Courses</h3>
+	{% if failed_courses %}
 		<table class="table table-hover">
 	 		<tr>
 	 			<th>course id</th>
@@ -106,7 +128,9 @@
 	 		</tr>
 	 		{% endfor %}
 	 	</table>
-
+	 {% else %}
+	 	<p>No failed courses</p>
+	 {% endif %}
 	</div>
 
 
