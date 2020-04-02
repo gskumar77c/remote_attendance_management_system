@@ -19,8 +19,8 @@ class course(models.Model):
     
     ## followin is added as a duplicate version fot student log model 
 
-    students_requested=models.ManyToManyField(student_model)
-    students_enrolled=models.
+    # students_requested=models.ManyToManyField(student_model)
+    # students_enrolled=models.
 
     ##
     
