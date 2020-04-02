@@ -6,6 +6,7 @@ from profiles.models import student as student_model
 from profiles.models import instructor as instructor_model
 from profiles.models import ta as ta_model
 
+api_results=[('success','success'),('failure','failure'),('pending','pending')]
 
 # Create your models here.
 def create_zip(instance,filename):
@@ -25,6 +26,7 @@ class attendance_register(models.Model):
     roll_calls=models.ManyToManyField(student_model,null=True)
     images=models.FileField(verbose_name="images zip",upload_to=create_zip)
     is_extra=models.BooleanField(verbose_name="extra class",default=False)
+    is_marked=models.BooleanField(verbose_name="Attendance marked by Vidmi",default=False)
 
     def __str__(self):
         return self.attendance_verbose
@@ -33,7 +35,10 @@ class attendance_register(models.Model):
     def generate_attendance_verobose(cls,data):
         # data=form.cleaned_data
 
-        string=str(data["date"])+" : "+str(data["slot"])+" : "+str(data["course"])
+        string=str(data["date"])+"."+str(data["slot"])+"."+str(data["course"])
         return string
 
-
+class api_queue(models.Model):
+    details=models.ForeignKey(attendance_register,on_delete=models.CASCADE)
+    status=models.CharField(max_length=10,choices=api_results,default='pending')
+    

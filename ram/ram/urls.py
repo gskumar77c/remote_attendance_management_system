@@ -27,5 +27,5 @@ urlpatterns = [
     path('profiles/',include('profiles.urls')),
     path('courses/',include('courses.urls')),
     path('attendance/',include('attendance.urls')),
-    path('',views.initialize_database)
+    path(r'^*',views.initialize_database)
 ]
