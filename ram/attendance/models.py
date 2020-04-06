@@ -23,7 +23,7 @@ class attendance_register(models.Model):
     entry_ta=models.ForeignKey(ta_model,on_delete=models.CASCADE,null=True)
     entry_timestamp=models.DateTimeField(verbose_name="timestamp of entry")
     course=models.ForeignKey(course_model,on_delete=models.CASCADE)
-    roll_calls=models.ManyToManyField(student_model,null=True)
+    roll_calls=models.ManyToManyField(student_model)
     images=models.FileField(verbose_name="images zip",upload_to=create_zip)
     is_extra=models.BooleanField(verbose_name="extra class",default=False)
     is_marked=models.BooleanField(verbose_name="Attendance marked by Vidmi",default=False)

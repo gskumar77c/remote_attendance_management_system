@@ -18,7 +18,7 @@ def all_courses(request):
 	username=request.session["username"]
 	qtype=request.session["qualification"]
 
-	data = configure_base('courses','logged_in',{'qtype':qtype})
+	data = configure_base('courses',username,{'qtype':qtype})
 
 	# list of all courses
 	courses = models.course.objects.all().order_by('department')
@@ -34,7 +34,7 @@ def coursedetails(request):
 	qtype=request.session["qualification"]
 
 	courseid = request.GET.get('id')
-	data = configure_base('courses','logged_in',{'qtype':qtype})
+	data = configure_base('courses',username,{'qtype':qtype})
 	details = models.course.objects.get(course_id = courseid)
 	data['details'] = details
 	return render(request,'coursedetails.html',data)
@@ -100,13 +100,12 @@ def show_floated_courses(request):
 				except Exception as e:
 						message_string = message_string + f" error in joining {course.course_id} course, \n"
 			messages.warning(request,message_string)
-
-
-	data = configure_base('courses','logged_in',{'qtype':qtype})
-	floated_courses = models.course.objects.filter(status='floating').order_by('department')
-	data['courses'] = list(floated_courses)
-	data['qtype'] = qtype
-	return render(request,'floatedcourses.html',data)
+	else:
+		data = configure_base('courses',username,{'qtype':qtype})
+		floated_courses = models.course.objects.filter(status='closed').order_by('department')
+		data['courses'] = list(floated_courses)
+		data['qtype'] = qtype
+		return render(request,'floatedcourses.html',data)
 
 
 
@@ -139,7 +138,7 @@ def enrolled_courses(request):
 			messages.warning(request,message_string)
 
 
-	data = configure_base('courses','logged_in',{'qtype':qtype})
+	data = configure_base('courses',username,{'qtype':qtype})
 	data['qtype'] = qtype
 	enrolled_courses = models.course_student_log.objects.filter(name__user__email = username,action='enrolled')
 	pending_courses = models.course_student_log.objects.filter(name__user__email=username,action='requested')
@@ -158,7 +157,7 @@ def joined_courses(request):
 	username=request.session["username"]
 	qtype=request.session["qualification"]
 
-	data = configure_base('courses','logged_in',{'qtype':qtype})
+	data = configure_base('courses',username,{'qtype':qtype})
 	data['qtype'] = qtype
 	if qtype == 'instructor' :
 		joined_courses = models.course_instructor_log.objects.filter(name__user__email = username,action='joined')
@@ -201,7 +200,7 @@ def student_requests(request):
 		courseid = request.GET.get('id')
 		list_type = request.GET.get('list_type') 
 
-	data = configure_base('courses','logged_in',{'qtype':qtype})
+	data = configure_base('courses',username,{'qtype':qtype})
 	data['courseid'] = courseid
 	data['qtype'] = qtype
 	data['list_type'] = list_type

@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from institution.models import public_announcement as public_announcement_model
 from profiles.constants.constants import constants
 from .page_config import configure_base
 from institution.models import period_slot,week_days
 import datetime
+
 # Create your views here.
 
 
@@ -38,7 +39,7 @@ def home(request):
 
 
 
-def create_slots():
+def create_slots(request):
     # print('entered create slots')
     for wd in week_days:
         day = wd[1]
@@ -67,5 +68,6 @@ def create_slots():
                 raise e
             time += datetime.timedelta(minutes=slot_time + slot_gap)
             count += 1
+    return redirect('..')
     # print('exit create slots')
 
