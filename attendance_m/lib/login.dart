@@ -264,19 +264,14 @@ class _LoginPageState extends State<LoginPage> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var data = 
     {
-         'username' : 'bhawana',
-         'password' : 'bhawana',
-      // 'Authorization': 'Token 88f95c3f76da99c3403e9de1222ab153bee9ecd6', 
+         'username' : 'username',
+         'password' : 'password', 
     }; 
 
-    String jasonStringLogin = json.encode(data); 
-    // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => Homepage()), (Route<dynamic> route) => false);
+    String jasonStringLogin = json.encode(data);  
 
     String url_login = "http://192.168.43.178:8080/api-token-auth/" ;
-    var response = await http.post(url_login , body: data);
-    // var response = await http.post(url_login , body: jasonStringLogin);
-    
-    // print("response......................");
+    var response = await http.post(url_login , body: data); 
     var jsonResponse;
     if(response.statusCode == 200) { 
       jsonResponse = json.decode(response.body);
