@@ -102,7 +102,10 @@ def show_floated_courses(request):
 			messages.warning(request,message_string)
 	else:
 		data = configure_base('courses',username,{'qtype':qtype})
-		floated_courses = models.course.objects.filter(status='closed').order_by('department')
+		if qtype == 'student':
+			floated_courses = models.course.objects.filter(status='floating').order_by('department')
+		else :
+			floated_courses = models.course.objects.filter().order_by('department')
 		data['courses'] = list(floated_courses)
 		data['qtype'] = qtype
 		return render(request,'floatedcourses.html',data)
