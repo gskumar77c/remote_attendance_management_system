@@ -18,7 +18,7 @@ Run app by: flutter run
 
  	django : python manage.py runserver 0.0.0.0:8080
   
- 			(make sure to install dependencies from requirement.txt file)
+ 			(make sure to install dependencies from requirement.txt file) & (call url in flutter using your laptop Ip Address )
 
 
 Note : my_django_server is dummy server ( for testing);
