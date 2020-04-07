@@ -15,7 +15,9 @@ python manage.py runserver
 json date reference format (editable)  : https://docs.google.com/document/d/1EeUs6JloRfFuWZJsySmkNFBDFPvt6Gd1UbLjBaSTnIQ/edit
 
 Run app by: flutter run
+
  	django : python manage.py runserver 0.0.0.0:8080
+  
  			(make sure to install dependencies from requirement.txt file)
 
 
