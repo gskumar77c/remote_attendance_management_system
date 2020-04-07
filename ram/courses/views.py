@@ -4,7 +4,7 @@ from django.forms.models import model_to_dict
 from django.contrib import messages
 from profiles.constants.constants import constants
 from . import models
-from profiles.models import student,instructor,ta
+from profiles.models import student,instructor,ta,user
 from datetime import date
 import datetime
 from .page_config import configure_base
@@ -19,7 +19,6 @@ def all_courses(request):
 	qtype=request.session["qualification"]
 
 
-
 	data = configure_base('courses',username,{'qtype':qtype})
 
 	# list of all courses
@@ -31,6 +30,7 @@ def all_courses(request):
 def coursedetails(request):
 	if "username" not in request.session:
 		return redirect('../profiles/login')
+
 	username=request.session["username"]
 	qtype=request.session["qualification"]
 
@@ -44,8 +44,13 @@ def coursedetails(request):
 def show_floated_courses(request):
 	if "username" not in request.session:
 		return redirect('../profiles/login')
+
 	username=request.session["username"]
 	qtype=request.session["qualification"]
+	usr = user.objects.get(email=username)
+	if usr.status == False:
+		return redirect('all-courses')
+	
 
 	if request.method == 'POST':
 		course_list = request.POST.getlist('course')
@@ -57,7 +62,9 @@ def show_floated_courses(request):
 				name = student.objects.get(user__email = username)
 				action = 'requested'
 				try:
-					q = models.course_student_log.objects.filter(course=course,name=name)
+					q = models.course_student_log.current_status()
+					q = q.filter(course=course,name=name)
+					#q = models.course_student_log.objects.filter(course=course,name=name)
 					if q.__len__()==0:
 						reqcourse = models.course_student_log(course = course,timestamp = date1,name = name,action=action)
 						reqcourse.save()
@@ -74,7 +81,9 @@ def show_floated_courses(request):
 				name = ta.objects.get(user__email = username)
 				action = 'joined'
 				try:
-					q = models.course_ta_log.objects.filter(course=course,name=name)
+					q = models.course_ta_log.current_status()
+					q = q.filter(course=course,name=name)
+					#q = models.course_ta_log.objects.filter(course=course,name=name)
 					if q.__len__()==0:
 						reqcourse = models.course_ta_log(course = course,timestamp = date1,name = name,action=action)
 						reqcourse.save()
@@ -91,7 +100,9 @@ def show_floated_courses(request):
 				name = instructor.objects.get(user__email = username)
 				action = 'joined'
 				try:
-					q = models.course_instructor_log.objects.filter(course=course,name=name)
+					q = models.course_instructor_log.current_status()
+					q = q.filter(course=course,name=name)
+					#q = models.course_instructor_log.objects.filter(course=course,name=name)
 					if q.__len__()==0:
 						reqcourse = models.course_instructor_log(course = course,timestamp = date1,name = name,action=action)
 						reqcourse.save()
@@ -115,8 +126,14 @@ def show_floated_courses(request):
 def enrolled_courses(request):
 	if "username" not in request.session:
 		return redirect('../profiles/login')
+
 	username=request.session["username"]
 	qtype=request.session["qualification"]
+	usr = user.objects.get(email=username)
+	if usr.status == False:
+		return redirect('all-courses')
+
+	
 
 
 	if request.method == 'POST':
@@ -129,11 +146,13 @@ def enrolled_courses(request):
 				name = student.objects.get(user__email = username)
 				action='enrolled'
 				try:
-					q = models.course_student_log.objects.filter(course=course,name=name,action=action)
+					q = models.course_student_log.get_current(action)
+					q = q.filter(course=course,name=name)
+					#q = models.course_student_log.objects.filter(course=course,name=name,action=action)
 					if q.__len__() != 0:
 						for ele in q:
-							ele.action = 'dropped'
-							ele.save()
+							dropcourse = models.course_student_log(course = ele.course,timestamp = date1,name = ele.name,action='dropped')
+							dropcourse.save()
 					else :
 						message_string = message_string + f" {course.course_id} already dropped, \n"
 				except Exception as e:
@@ -142,10 +161,11 @@ def enrolled_courses(request):
 
 
 	data = configure_base('enrolled-courses',username,{'qtype':qtype})
-	enrolled_courses = models.course_student_log.objects.filter(name__user__email = username,action='enrolled')
-	pending_courses = models.course_student_log.objects.filter(name__user__email=username,action='requested')
-	completed_courses = models.course_student_log.objects.filter(name__user__email=username,action='completed')
-	failed_courses = models.course_student_log.objects.filter(name__user__email=username,action='failed')
+	current_list = models.course_student_log.current_status()
+	enrolled_courses = current_list.filter(name__user__email = username,action='enrolled')
+	pending_courses = current_list.filter(name__user__email=username,action='requested')
+	completed_courses = current_list.filter(name__user__email=username,action='completed')
+	failed_courses = current_list.filter(name__user__email=username,action='failed')
 	data['completed_courses'] = list(completed_courses)
 	data['failed_courses'] = list(failed_courses)
 	data['pending_courses'] = list(pending_courses)
@@ -156,16 +176,21 @@ def enrolled_courses(request):
 def joined_courses(request):
 	if "username" not in request.session:
 		return redirect('../profiles/login')
+
 	username=request.session["username"]
 	qtype=request.session["qualification"]
+	usr = user.objects.get(email=username)
+	if usr.status == False:
+		return redirect('all-courses')
+
 
 	data = configure_base('joined-courses',username,{'qtype':qtype})
 	if qtype == 'instructor' :
-		joined_courses = models.course_instructor_log.objects.filter(name__user__email = username,action='joined')
-		left_courses = models.course_instructor_log.objects.filter(name__user__email=username,action='left')
+		joined_courses = models.course_instructor_log.current_status().filter(name__user__email = username,action='joined')
+		left_courses = models.course_instructor_log.current_status().filter(name__user__email=username,action='left')
 	else :
-		joined_courses = models.course_ta_log.objects.filter(name__user__email = username,action='joined')
-		left_courses = models.course_ta_log.objects.filter(name__user__email=username,action='left')
+		joined_courses = models.course_ta_log.current_status().filter(name__user__email = username,action='joined')
+		left_courses = models.course_ta_log.current_status().filter(name__user__email=username,action='left')
 	data['joined_courses'] = list(joined_courses)
 	data['left_courses'] = list(left_courses)
 	return render(request,'joined_courses.html',data)
@@ -176,20 +201,24 @@ def student_requests(request):
 		return redirect('../profiles/login')
 	username=request.session["username"]
 	qtype=request.session["qualification"]
+	usr = user.objects.get(email=username)
+	if usr.status == False:
+		return redirect('all-courses')
+
 
 	if request.method == 'POST':
 		courseid = request.POST.get('courseid')
 		list_type = request.POST.get('list_type')
 		selected_students = request.POST.getlist('student')
 		message_string = ""
+		date1 = date.today()
 		for student in selected_students:
 				try:
-					q = models.course_student_log.objects.filter(course__course_id=courseid,name__user__email=student,action='requested')
+					q = models.course_student_log.current_status().filter(course__course_id=courseid,name__user__email=student,action='requested')
 					if q.__len__() != 0:
-						print(q)
 						for ele in q:
-							ele.action = 'enrolled'
-							ele.save()
+							enrollcourse = models.course_student_log(course = ele.course,timestamp = date1,name = ele.name,action='enrolled')
+							enrollcourse.save()
 					else :
 						message_string = message_string + f"{student} request is invalid,\n"
 				except Exception as e:
@@ -209,11 +238,11 @@ def student_requests(request):
 	data = configure_base('student-requests',username,fields)
 
 	if list_type == 'requests':
-		student_list = models.course_student_log.objects.filter(course__course_id = courseid,action='requested')
+		student_list = models.course_student_log.current_status().filter(course__course_id = courseid,action='requested')
 	elif list_type == 'enrolled':
-		student_list = models.course_student_log.objects.filter(course__course_id=courseid,action='enrolled')
+		student_list = models.course_student_log.current_status().filter(course__course_id=courseid,action='enrolled')
 	else:
-		student_list = models.course_student_log.objects.filter(course__course_id=courseid,action='enrolled')
+		student_list = models.course_student_log.current_status().filter(course__course_id=courseid,action='enrolled')
 	data['student_list'] = student_list
 	return render(request,'students_list.html',data)
 
