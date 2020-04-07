@@ -18,12 +18,13 @@ def all_courses(request):
 	username=request.session["username"]
 	qtype=request.session["qualification"]
 
+
+
 	data = configure_base('courses',username,{'qtype':qtype})
 
 	# list of all courses
 	courses = models.course.objects.all().order_by('department')
 	data['courses'] = list(courses)
-	data['qtype'] = qtype
 	return render(request,'courses.html',data)
     
 
@@ -34,7 +35,7 @@ def coursedetails(request):
 	qtype=request.session["qualification"]
 
 	courseid = request.GET.get('id')
-	data = configure_base('courses',username,{'qtype':qtype})
+	data = configure_base('course-details',username,{'qtype':qtype})
 	details = models.course.objects.get(course_id = courseid)
 	data['details'] = details
 	return render(request,'coursedetails.html',data)
@@ -58,7 +59,7 @@ def show_floated_courses(request):
 				try:
 					q = models.course_student_log.objects.filter(course=course,name=name)
 					if q.__len__()==0:
-						reqcourse = models.course_student_log(course = course,date = date1,name = name,action=action)
+						reqcourse = models.course_student_log(course = course,timestamp = date1,name = name,action=action)
 						reqcourse.save()
 					else :
 						for ele in q:
@@ -75,7 +76,7 @@ def show_floated_courses(request):
 				try:
 					q = models.course_ta_log.objects.filter(course=course,name=name)
 					if q.__len__()==0:
-						reqcourse = models.course_ta_log(course = course,date = date1,name = name,action=action)
+						reqcourse = models.course_ta_log(course = course,timestamp = date1,name = name,action=action)
 						reqcourse.save()
 					else :
 						for ele in q:
@@ -92,7 +93,7 @@ def show_floated_courses(request):
 				try:
 					q = models.course_instructor_log.objects.filter(course=course,name=name)
 					if q.__len__()==0:
-						reqcourse = models.course_instructor_log(course = course,date = date1,name = name,action=action)
+						reqcourse = models.course_instructor_log(course = course,timestamp = date1,name = name,action=action)
 						reqcourse.save()
 					else :
 						for ele in q:
@@ -100,15 +101,14 @@ def show_floated_courses(request):
 				except Exception as e:
 						message_string = message_string + f" error in joining {course.course_id} course, \n"
 			messages.warning(request,message_string)
-	else:
-		data = configure_base('courses',username,{'qtype':qtype})
-		if qtype == 'student':
-			floated_courses = models.course.objects.filter(status='floating').order_by('department')
-		else :
-			floated_courses = models.course.objects.filter().order_by('department')
-		data['courses'] = list(floated_courses)
-		data['qtype'] = qtype
-		return render(request,'floatedcourses.html',data)
+
+	data = configure_base('floated-courses',username,{'qtype':qtype})
+	if qtype == 'student':
+		floated_courses = models.course.objects.filter(status='floating').order_by('department')
+	else :
+		floated_courses = models.course.objects.filter().order_by('department')
+	data['courses'] = list(floated_courses)
+	return render(request,'floatedcourses.html',data)
 
 
 
@@ -141,8 +141,7 @@ def enrolled_courses(request):
 			messages.warning(request,message_string)
 
 
-	data = configure_base('courses',username,{'qtype':qtype})
-	data['qtype'] = qtype
+	data = configure_base('enrolled-courses',username,{'qtype':qtype})
 	enrolled_courses = models.course_student_log.objects.filter(name__user__email = username,action='enrolled')
 	pending_courses = models.course_student_log.objects.filter(name__user__email=username,action='requested')
 	completed_courses = models.course_student_log.objects.filter(name__user__email=username,action='completed')
@@ -160,8 +159,7 @@ def joined_courses(request):
 	username=request.session["username"]
 	qtype=request.session["qualification"]
 
-	data = configure_base('courses',username,{'qtype':qtype})
-	data['qtype'] = qtype
+	data = configure_base('joined-courses',username,{'qtype':qtype})
 	if qtype == 'instructor' :
 		joined_courses = models.course_instructor_log.objects.filter(name__user__email = username,action='joined')
 		left_courses = models.course_instructor_log.objects.filter(name__user__email=username,action='left')
@@ -203,10 +201,13 @@ def student_requests(request):
 		courseid = request.GET.get('id')
 		list_type = request.GET.get('list_type') 
 
-	data = configure_base('courses',username,{'qtype':qtype})
-	data['courseid'] = courseid
-	data['qtype'] = qtype
-	data['list_type'] = list_type
+
+	fields = {}
+	fields['qtype'] = qtype
+	fields['courseid'] = courseid
+	fields['list_type'] = list_type
+	data = configure_base('student-requests',username,fields)
+
 	if list_type == 'requests':
 		student_list = models.course_student_log.objects.filter(course__course_id = courseid,action='requested')
 	elif list_type == 'enrolled':

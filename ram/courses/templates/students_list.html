@@ -22,7 +22,7 @@
  		<tr>
  			<th>email</th>
  			<th>name</th>
- 			<th>date requested</th>
+ 			<th>time stamp</th>
  			{% if list_type == 'attendance' %}
  			<th>Attendance</th>
  			{% endif %}
@@ -39,7 +39,7 @@
  			<td>{{crse.name.user.email}}</td>
  			{% endif %}
  			<td>{{crse.name.user.full_name}}</td>
- 			<td>{{crse.date}}</td>
+ 			<td>{{crse.timestamp}}</td>
  			{% if list_type == 'attendance' %}
  			<td>To be implemented</td>
  			{% endif %}
