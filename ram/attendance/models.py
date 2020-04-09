@@ -33,10 +33,27 @@ class attendance_register(models.Model):
 
     @classmethod
     def generate_attendance_verobose(cls,data):
-        # data=form.cleaned_data
 
         string=str(data["date"])+"."+str(data["slot"])+"."+str(data["course"])
         return string
+
+    @classmethod
+    def details(cls,id):
+        result=attendance_register.objects.get(pk=id)
+        return result
+
+    @classmethod
+    def history(cls,course):
+        results=attendance_register.objects.filter(course__course_id=course)
+        return results
+
+    @classmethod
+    def update(cls,id,calls):
+        attendance_register.objects.update(roll_calls=calls)
+        return
+        
+
+
 
 class api_queue(models.Model):
     details=models.ForeignKey(attendance_register,on_delete=models.CASCADE)

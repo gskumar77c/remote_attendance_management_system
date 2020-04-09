@@ -8,6 +8,7 @@ from profiles.models import instructor as instructor_model
 from profiles.models import ta as ta_model
 from datetime import datetime
 from courses.models import course
+from django.utils import timezone
 # Create your views here.
 
 def get_instance(username,qtype):
@@ -31,8 +32,7 @@ def verify_authority(data,username,qtype):
 
     return True
 
-def details(request):
-    return
+
 
 def web_input(request):
     if "username" not in request.session:
@@ -74,8 +74,40 @@ def web_input(request):
             api_queue.objects.Create(form)
             messages.success(request,f"sent files for marking attendance")
             return redirect('.')
-            
-            
 
+def history(request):
 
+    if "username" not in request.session:
+        return redirect('../profiles/login')
+
+    username=request.session["username"]
+    qtype=request.session["qualification"]
+
+    if qtype=="student":
+        messages.success(request,f"no privilage for this action")
+        return redirect('../profiles/dashboard')
+
+    results=attendance_register.history(username)
+
+def detail(request):
+    if "username" not in request.session:
+        return redirect('../profiles/login')
+
+    username=request.session["username"]
+    qtype=request.session["qualification"]
+
+    if qtype=="student":
+        messages.success(request,f"no privilage for this action")
+        return redirect('../profiles/dashboard')
+
+def modify(request):
+    if "username" not in request.session:
+        return redirect('../profiles/login')
+
+    username=request.session["username"]
+    qtype=request.session["qualification"]
+
+    if qtype=="student":
+        messages.success(request,f"no privilage for this action")
+        return redirect('../profiles/dashboard')
     
