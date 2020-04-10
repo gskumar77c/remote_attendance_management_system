@@ -5,6 +5,7 @@ from myapi.core import views
 urlpatterns = [
     path('teacher_profile/', views.TeacherView.as_view(), name='teacher_profile'),
     path('class_history/', views.ClassHistory.as_view(), name='class_history'),
-    path('student_wise /', views.StudentHistory.as_view(), name='student_wise'),
+    path('student_wise/', views.StudentHistory.as_view(), name='student_wise'),
+    path('images_upload/', views.getImage.as_view(), name='image_wise'),
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'), 
 ]
