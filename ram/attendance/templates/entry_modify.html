@@ -2,20 +2,38 @@
 
 {% block content %}
 
-{% for entry in entries %}
-<div class="card" style="width: 50%;" >
-    <div class="row" style="height: 1cm;" >
-        <div class="col-md-7">
-            {{entry}}
-        </div>
-        <div class="col-md-5"  >
-            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70% ;height: 1cm;" >
-                70%
-              </div>
-        </div> 
-    </div>
+<div class="container">
+ 		<h3>Attendence list</h3>
+<!--  "../modify/{{ id }}"  -->
+ 	<form action={% url 'attendance.modify' pk=id %} method="POST">
+ 		{% csrf_token %}
+ 		<input type="text" name="id" hidden="True" value="{{id}}">
+  	<table class="table table-hover">
+ 		<tr>
+ 			<th>email</th>
+ 			<th>name</th>
 
-</div>
-{% endfor %}
+ 		</tr>
+ 		{% for crse in student_list %}
+ 		<tr>
+ 			<td>
+
+ 				<!-- <input type="checkbox" name="student" value="{{crse.student}}" checked = {{crse.present}}> -->
+ 				{% if crse.present == True %}
+ 				<input type="checkbox" name="student" value="{{crse.student}}" checked>
+ 				{% else %}
+ 				<input type="checkbox" name="student" value="{{crse.student}}">
+ 				{% endif %}
+ 				<label for = '{{crse.name.user.email}}'>{{crse.student.user.email}}</label>
+ 			</td>
+ 			<td>{{crse.student.user.full_name}}</td>
+ 		</tr>
+ 		{% endfor %}
+ 	</table>
+ 	<button class="btn bg-warning" type="submit">Modify</button>
+     </form>
+     <a href="{% url 'attendance.home' %}" > Return Back with no changes </a>
+ 	</div>
+
 
 {% endblock %}
