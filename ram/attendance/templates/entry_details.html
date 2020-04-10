@@ -3,22 +3,22 @@
 {% block content %}
 
 <div class="container"  >
-    
+
     Date {{ detail.date }}
     <br>
     <hr width="30%" >
     Slot {{ detail.slot }}
-    <br><hr width="30%" > 
+    <br><hr width="30%" >
     Time of entry {{ detail.timestamp }}
-    <br><hr width="30%" > 
+    <br><hr width="30%" >
     Course {{ detail.course }}
-    <br><hr width="30%" > 
-    
+    <br><hr width="30%" >
+
 </div>
 <br><br>
 <div class="container">
 <!--  <h2>Hover Rows</h2>-->
-  <p>Presentees</p>            
+  <p>Presentees</p>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -37,6 +37,8 @@
         {% endfor %}
     </tbody>
   </table>
+  <br>
+  <div class="btn-primary" onclick="location.hgref='{% url 'attendance.modify' pk=detail.pk %}';"
 </div>
 
 
