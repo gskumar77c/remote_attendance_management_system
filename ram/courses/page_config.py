@@ -11,11 +11,11 @@ def configure_base(arg,name,additional_dictionary={}):
     #     data["navbar"]=[["Dashboard",reverse("insti.logout")],["All Courses","../courses"],["Logout","../profiles/logout"]]
     
     if additional_dictionary['qtype'] == 'student':
-        data["navbar"]=[["Home",reverse('institution.home')],["Logout",reverse("profiles.logout")],["All Courses",reverse("courses.all")],["Enrolled Courses",reverse("courses.enrolled")],["Add Courses",reverse("courses.floated")]["Attendance",reverse("attendance.home")]]
+        data["navbar"]=[["Home",reverse('institution.home')],["Logout",reverse("profiles.logout")],["All Courses",reverse("courses.all")],["Enrolled Courses",reverse("courses.enrolled")],["Add Courses",reverse("courses.floated")],["Attendance",reverse("attendance.home")]]
 
         # data["navbar"]=[["Dashboard","../profiles/dashboard"],["All Courses","../courses"],["Enrolled Courses","../courses/enrolled_courses"],["Add Courses","../courses/floated_courses"],["Logout","../profiles/logout"],["Attendance","../attendance"]]
     else:
-        data["navbar"]=[["Home",reverse('institution.home')],["Logout",reverse("profiles.logout")],["All Courses",reverse("courses.all")],["Joined Courses",reverse("courses.joined")],["Add Courses",reverse("courses.floated")]["Attendance",reverse("attendance.home")]]
+        data["navbar"]=[["Home",reverse('institution.home')],["Logout",reverse("profiles.logout")],["All Courses",reverse("courses.all")],["Joined Courses",reverse("courses.joined")],["Add Courses",reverse("courses.floated")],["Attendance",reverse("attendance.home")]]
         # data["navbar"]=[["Dashboard","../profiles/dashboard"],["All Courses","../courses"],["Joined Courses","../courses/joined_courses"],["Float Courses","../courses/floated_courses"],["Logout","../profiles/logout"],["Attendance","../attendance"]]
     data["type"]="Logout"
     data["type_link"]=reverse("profiles.logout")

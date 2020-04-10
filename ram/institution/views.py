@@ -4,7 +4,7 @@ from profiles.constants.constants import constants
 from .page_config import configure_base
 from institution.models import period_slot,week_days
 import datetime
-
+from django.urls import reverse
 # Create your views here.
 
 
@@ -68,6 +68,6 @@ def create_slots(request):
                 raise e
             time += datetime.timedelta(minutes=slot_time + slot_gap)
             count += 1
-    return redirect('..')
+    return redirect(reverse("institution.home"))
     # print('exit create slots')
 

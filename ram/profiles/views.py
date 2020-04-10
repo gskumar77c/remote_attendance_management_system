@@ -14,6 +14,8 @@ from .page_config import configure_base
 
 # from .models import user,student,instructor,ta as user_model,student_model,instructor_model,ta_model
 from django.forms.models import model_to_dict
+from django.urls import reverse
+
 
 def get_modelclass(qtype):
     # print(qtype)
@@ -42,7 +44,7 @@ def register(request):
     nameheader="Not logged in"
     if "username" in request.session:
         nameheader=request.session["username"]
-        redirect('./logout')
+        return redirect(reverse("profiles.login"))
 
     if request.method=="GET":
         data=configure_base("register",nameheader)
@@ -72,15 +74,15 @@ def register(request):
             except Exception as e:
                 print(e)
                 messages.success(request,f"Registration Failed")
-                return redirect('./register')
+                return redirect(reverse("profiles.register"))
 
 
-            return redirect('./login')
+            return redirect(reverse("profiles.login"))
         else:
             print("form not valid\n",form_user.errors,"\n",extended_form.errors,"\n")
             # print("not valid")
             messages.success(request, f"Registration Failed")
-            return redirect('./register')
+            return redirect(reverse("profiles.register"))
 
 # def student_register(request):
 
@@ -89,7 +91,7 @@ def login(request):
 
     nameheader="Not logged in"
     if "username" in request.session:
-        return redirect('./logout')
+        return redirect(reverse("profiles.logout"))
 
     if request.method == "GET":
         data=configure_base("login")
@@ -98,7 +100,7 @@ def login(request):
     else:
         if not  request.session.test_cookie_worked():
             messages.success(request,f"cookies not available")
-            return redirect('./login')
+            return redirect(reverse("profiles.login"))
         form=login_form(request.POST)
         if form.is_valid():
             form=form.cleaned_data
@@ -110,15 +112,15 @@ def login(request):
             if result:
                 request.session["username"]=email
                 request.session["qualification"]=qualifcation                
-                return redirect('./dashboard')
+                return redirect(reverse("profiles.dashboard"))
         messages.success(request, f"Credentials wrong")
-        return redirect('./login')
+        return redirect(reverse("profiles.login"))
 
 def dashboard(request):
 
     nameheader="Not logged in"
     if "username" not in request.session:
-        return redirect('./login')
+        return redirect(reverse("profiles.login"))
         
     nameheader=request.session["username"]
     user_info=user_model.objects.get(email=nameheader)
@@ -148,4 +150,4 @@ def logout(request):
         del request.session["qualification"]
     except KeyError:
         pass
-    return redirect('../institution')
+    return redirect(reverse("institution.home"))

@@ -1,15 +1,15 @@
 from profiles.constants.constants import constants
 from .forms import register_form,student_registration,ta_registration,instructor_registration,login_form
 from .models import user as user_model
-
+from django.urls import reverse
 def configure_base(arg,name="Not logged in ",additional_dictionary={}):# use additional dictionary for more arguments
     data=constants.home_page_loggedout
 
     if arg=='register':        
         data["title"]="Registration"
-        data["navbar"]=[["Home","../institution"],["Login","./login"],["Attendance","./attendance"]]
+        data["navbar"]=[["Home",reverse("institution.home")],["Login",reverse("profiles.login")]]
         data["type"]="Login"
-        data["type_link"]="./login"
+        data["type_link"]=reverse("profiles.login")
         data["form_user"]=register_form()
         data["form_student"]=student_registration()
         data["form_instructor"]=instructor_registration()
@@ -19,9 +19,9 @@ def configure_base(arg,name="Not logged in ",additional_dictionary={}):# use add
 
     if arg=="login":
         data["title"]="Login"
-        data["navbar"]=[["Home","../institution"],["Register","./register"],["Attendance","./attendance"]]
+        data["navbar"]=[["Home",reverse("institution.home")],["Login",reverse("profiles.login")]]
         data["type"]="Register"
-        data["type_link"]="./register"
+        data["type_link"]=reverse("profiles.register")
         data["name"]=name
         data["form"]=login_form()
         return data
@@ -29,8 +29,10 @@ def configure_base(arg,name="Not logged in ",additional_dictionary={}):# use add
     if arg=="dashboard-open":
         data["title"]="Dashboard"
         data["navbar"]=[["Home","../institution"],["Logout","./logout"],["Courses","../courses"],["Attendance","./attendance"]]
+        data["navbar"]=[["Home",reverse("institution.home")],["Logout",reverse("profiles.logout")],["Courses",reverse("courses.all")],["Attendance",reverse("attendance.home")]]
+
         data["type"]="Logout"
-        data["type_link"]="./logout"
+        data["type_link"]=reverse("profiles.logout")
         data["name"]=name
         data["form"]={}
         user_details=user_model.get_userdetails(name)
@@ -39,9 +41,9 @@ def configure_base(arg,name="Not logged in ",additional_dictionary={}):# use add
 
     if arg=="dashboard-close":
         data["title"]="Dashboard"
-        data["navbar"]=[["Home","../institution"],["Logout","./logout"],["Attendance","./attendance"]]
+        data["navbar"]=[["Home",reverse("institution.home")],["Logout",reverse("profiles.logout")]]
         data["type"]="Logout"
-        data["type_link"]="./logout"
+        data["type_link"]=reverse("profiles.logout")
         data["name"]=name
         data["form"]={}
         user_details=user_model.get_userdetails(name)
