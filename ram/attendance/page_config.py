@@ -16,6 +16,16 @@ def configure_base(arg,name="Not logged in ",additional_dictionary={}):# use add
         
         return data
     
+    if arg=="home":
+        data["title"]="Attendance"
+        # data["navbar"]=[["Home","../institution"],["Logout","./logout"],["Courses","../courses"],["Attendance","../attendance"]]
+        data["type"]="Logout"
+        data["type_link"]="./logout"
+        data["name"]=name
+        # data["form"]=additional_dictionary["form"]
+        
+        return data
+    
     if arg=="history_courses":
         data["title"]="Attendance History"
         # data["navbar"]=[["Home","../institution"],["Logout","./logout"],["Courses","../courses"],["Attendance","../attendance"]]
@@ -46,5 +56,6 @@ def configure_base(arg,name="Not logged in ",additional_dictionary={}):# use add
         data["type_link"]="./logout"
         data["name"]=name
         data["detail"]=additional_dictionary["details"]
+        data["names"]=additional_dictionary["names"]
     
         return data
