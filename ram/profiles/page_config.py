@@ -7,7 +7,7 @@ def configure_base(arg,name="Not logged in ",additional_dictionary={}):# use add
 
     if arg=='register':        
         data["title"]="Registration"
-        data["navbar"]=[["Home","../institution"],["Login","./login"]]
+        data["navbar"]=[["Home","../institution"],["Login","./login"],["Attendance","./attendance"]]
         data["type"]="Login"
         data["type_link"]="./login"
         data["form_user"]=register_form()
@@ -19,7 +19,7 @@ def configure_base(arg,name="Not logged in ",additional_dictionary={}):# use add
 
     if arg=="login":
         data["title"]="Login"
-        data["navbar"]=[["Home","../institution"],["Register","./register"]]
+        data["navbar"]=[["Home","../institution"],["Register","./register"],["Attendance","./attendance"]]
         data["type"]="Register"
         data["type_link"]="./register"
         data["name"]=name
@@ -28,7 +28,7 @@ def configure_base(arg,name="Not logged in ",additional_dictionary={}):# use add
 
     if arg=="dashboard-open":
         data["title"]="Dashboard"
-        data["navbar"]=[["Home","../institution"],["Logout","./logout"],["Courses","../courses"]]
+        data["navbar"]=[["Home","../institution"],["Logout","./logout"],["Courses","../courses"],["Attendance","./attendance"]]
         data["type"]="Logout"
         data["type_link"]="./logout"
         data["name"]=name
@@ -39,7 +39,7 @@ def configure_base(arg,name="Not logged in ",additional_dictionary={}):# use add
 
     if arg=="dashboard-close":
         data["title"]="Dashboard"
-        data["navbar"]=[["Home","../institution"],["Logout","./logout"]]
+        data["navbar"]=[["Home","../institution"],["Logout","./logout"],["Attendance","./attendance"]]
         data["type"]="Logout"
         data["type_link"]="./logout"
         data["name"]=name

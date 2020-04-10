@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for course in courses %}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-3">
+        <div class="btn-primary" onclick="location.href = 'history/{{ course.course_id }}';" > {{ course.name }},{{ course.course_id }}  </div>
+    </div>
+</div>
+
+{% endfor %}
+
+{% endblock %}

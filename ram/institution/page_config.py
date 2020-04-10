@@ -5,7 +5,7 @@ def configure_base(arg,name="not logged in",additional_dictionary={}):
     if arg=='home':        
         data["title"]="Home"
         if name!="Not logged in":
-            data["navbar"]=[["Dashboard","../profiles/dashboard"],["Logout","../profiles/logout"],["Courses","../courses"]]
+            data["navbar"]=[["Dashboard","../profiles/dashboard"],["Logout","../profiles/logout"],["Courses","../courses"],["Attendance","../attendance"]]
             data["type"]="Logout"
             data["type_link"]="../profiles/logout"
             data["name"]=name

@@ -7,7 +7,7 @@ from profiles.models import student as student_model
 from profiles.models import instructor as instructor_model
 from profiles.models import ta as ta_model
 from datetime import datetime
-from courses.models import course
+from courses.models import *
 from django.utils import timezone
 # Create your views here.
 
@@ -17,6 +17,7 @@ def get_instance(username,qtype):
     elif qtype=="instructor":
         obj=instructor_model.objects.get(user__email=username)
     return obj
+
 
 def verify_authority(data,username,qtype):
     course=data["course"]
@@ -33,6 +34,9 @@ def verify_authority(data,username,qtype):
     return True
 
 
+def home(request):
+    return redirect('./history')
+
 
 def web_input(request):
     if "username" not in request.session:
@@ -48,7 +52,7 @@ def web_input(request):
     if request.method=="GET":
 
         form=attendance_register_form()
-        data=configure_base("attendance",username,{"form":form})
+        data=configure_base("new attendance",username,{"form":form})
         return render(request,'attendance.html',data)
 
     else:
@@ -75,8 +79,8 @@ def web_input(request):
             messages.success(request,f"sent files for marking attendance")
             return redirect('.')
 
-def history(request):
-
+def history_courses(request):
+    
     if "username" not in request.session:
         return redirect('../profiles/login')
 
@@ -87,9 +91,35 @@ def history(request):
         messages.success(request,f"no privilage for this action")
         return redirect('../profiles/dashboard')
 
-    results=attendance_register.history(username)
+    ulog=None
+    if qtype=="instructor":
+        ulog=course_instructor_log
+    if qtype=="ta":
+        ulog=course_ta_log
+    
+    # courses=list(ulog.get_current("floating"))
+    courses=list(ulog.objects.filter(name__user__email=username).order_by('action'))
+    data=configure_base("history_courses",name=username,additional_dictionary={"courses":courses})
+    return render(request,"history_courses.html",data)
+    
 
-def detail(request):
+def history(request,pk):
+
+    if "username" not in request.session:
+        return redirect('../profiles/login')
+
+    username=request.session["username"]
+    qtype=request.session["qualification"]
+
+    if qtype=="student":
+        messages.success(request,f"no privilage for this action")
+        return redirect('/../profiles/dashboard')
+
+    results=attendance_register.history(pk)
+    data=configure_base("history_list",username,{"entries":results})
+    return render(request,"history_list.html",data)
+
+def details(request,pk):
     if "username" not in request.session:
         return redirect('../profiles/login')
 
@@ -100,7 +130,13 @@ def detail(request):
         messages.success(request,f"no privilage for this action")
         return redirect('../profiles/dashboard')
 
-def modify(request):
+
+    result=attendance_register.details(id=pk)
+    print(result.roll_calls)
+    data=configure_base("details",username,{"details":result})
+    return render(request,'entry_details.html',data)
+
+def modify(request,pk):
     if "username" not in request.session:
         return redirect('../profiles/login')
 

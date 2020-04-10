@@ -2,8 +2,10 @@ from django.urls import path,include
 from . import views
 
 urlpatterns=[
-    path('new', views.web_input),
-    path('history', views.history),
+    path('',views.home),
+    path('new_entry', views.web_input),
+    path('history',views.history_courses),
+    path('history/<pk>', views.history),
     path('details/<int:pk>',views.details),
     path('modify/<int:pk>',views.modify)
     # path('coursedetails',views.coursedetails,name= 'course-details'),

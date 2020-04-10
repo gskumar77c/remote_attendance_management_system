@@ -9,9 +9,9 @@ def configure_base(arg,name,additional_dictionary={}):
     if usr.status == False:
         data["navbar"]=[["Dashboard","../profiles/dashboard"],["All Courses","../courses"],["Logout","../profiles/logout"]]
     elif additional_dictionary['qtype'] == 'student':
-        data["navbar"]=[["Dashboard","../profiles/dashboard"],["All Courses","../courses"],["Enrolled Courses","../courses/enrolled_courses"],["Add Courses","../courses/floated_courses"],["Logout","../profiles/logout"]]
+        data["navbar"]=[["Dashboard","../profiles/dashboard"],["All Courses","../courses"],["Enrolled Courses","../courses/enrolled_courses"],["Add Courses","../courses/floated_courses"],["Logout","../profiles/logout"],["Attendance","../attendance"]]
     else:
-        data["navbar"]=[["Dashboard","../profiles/dashboard"],["All Courses","../courses"],["Joined Courses","../courses/joined_courses"],["Float Courses","../courses/floated_courses"],["Logout","../profiles/logout"]]
+        data["navbar"]=[["Dashboard","../profiles/dashboard"],["All Courses","../courses"],["Joined Courses","../courses/joined_courses"],["Float Courses","../courses/floated_courses"],["Logout","../profiles/logout"],["Attendance","../attendance"]]
     data["type"]="Logout"
     data["type_link"]="../profiles/logout"
     data["name"]=name
