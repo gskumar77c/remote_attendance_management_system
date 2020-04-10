@@ -82,9 +82,9 @@ def web_input(request):
         if form.is_valid():
             data=form.cleaned_data
             verbose_name=attendance_register.generate_attendance_verobose(data)
-            if not verify_authority(data,username,qtype):
-                messages.success(request,f"no privilage for this action")
-                return redirect(reverse("attendance.home"))
+            # if not verify_authority(data,username,qtype):
+            #     messages.success(request,f"no privilage for this action")
+            #     return redirect(reverse("attendance.home"))
             form=form.save(commit=False)
             form.attendance_verbose=verbose_name
             print(form.attendance_verbose,"|"*10)
@@ -121,7 +121,7 @@ def history_courses(request):
         ulog=course_ta_log
     
     # courses=list(ulog.get_current("floating"))
-    courses=list(ulog.objects.filter(name__user__email=username).order_by('action'))
+    courses=list(ulog.current_status().filter(name__user__email=username).order_by('action'))
     data=configure_base("history_courses",name=username,additional_dictionary={"courses":courses})
     return render(request,"history_courses.html",data)
     
@@ -139,7 +139,16 @@ def history(request,pk):
         return redirect(reverse("attendance.home"))
 
     results=attendance_register.history(pk)
-    data=configure_base("history_list",username,{"entries":results})
+    final_list = []
+    for result in results:
+        course_name = result.course.name
+        attended_students = result.roll_calls.all().__len__()
+        enrolled_students = course_student_log.current_status().filter(course__name=course_name).__len__()
+        percentage = (attended_students * 100)/enrolled_students
+        final_list.append({'entry':result,'percent':percentage})
+
+
+    data=configure_base("history_list",username,{"entries":final_list})
     return render(request,"history_list.html",data)
 
 def details(request,pk):
@@ -155,7 +164,6 @@ def details(request,pk):
 
 
     result,names=attendance_register.details(id=pk)
-    print(result.roll_calls,names)
     data=configure_base("details",username,{"details":result,"names":names})
     return render(request,'entry_details.html',data)
 
@@ -207,4 +215,6 @@ def modify(request,pk):
     data=configure_base("modify",username,{"details":final_list,'id':pk})
 
     return render(request,'entry_modify.html',data)
+
+
 

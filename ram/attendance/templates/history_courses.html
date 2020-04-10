@@ -2,16 +2,34 @@
 
 {% block content %}
 
-{% for course in courses %}
+<h4>List</h4>
+{% for crse in courses %}
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-5">
-      <a href = "{% url 'attendance.history_courses' %}/{{ course.course_id }}">{{ course.name }},{{ course.course_id }}</a>
-        <!-- <div class="btn-primary" onclick="location.href = {% url 'attendance.history_courses' %}/{{ course.course_id }}" > {{ course.name }},{{ course.course_id }}  </div> -->
+    	<div class="container">
+      <a href = "{% url 'attendance.history_courses' %}/{{ crse.course.course_id }}"><span>{{ crse.course.course_id }}  | {{ crse.course.name }}</span></a>
+      </div>
         <br>
     </div>
 </div>
 
 {% endfor %}
+
+<!-- <h4>List</h4>
+<table class="table table-hover">
+{% for crse in courses %}
+
+	<tbody>
+		<tr class="clickable-row" href = "{% url 'attendance.history_courses' %}/{{ course.course_id }}">
+			<td>{{crse.course.course_id}}</td>
+		</tr>
+	</tbody>
+	
+
+
+{% endfor %}
+
+</table> -->
 
 {% endblock %}
