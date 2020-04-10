@@ -9,8 +9,12 @@ from profiles.models import ta as ta_model
 from datetime import datetime
 from courses.models import *
 from django.utils import timezone
+
 from courses.models import course,course_student_log
 from django.http import HttpResponse
+
+from django.urls import reverse
+
 # Create your views here.
 
 def get_instance(username,qtype):
@@ -22,12 +26,14 @@ def get_instance(username,qtype):
 
 
 def verify_authority(data,username,qtype):
-    course=data["course"]
-    cinst=course.objects.get(course_id=course)
-    cdept=getattr(cinst,"department")
+    ccourse=data["course"]
+    # print(course.objects.all(),")"*10,type(ccourse))
+    # cinst=course.objects.get(pk=ccourse)
+    cdept=getattr(ccourse,"department")
     uinst=get_instance(username,qtype)
     udept=getattr(uinst,"department")
 
+    print(cdept,udept)
     if cdept != udept:
         return False
     
@@ -37,7 +43,21 @@ def verify_authority(data,username,qtype):
 
 
 def home(request):
-    return redirect('./history')
+    if "username" not in request.session:
+        return redirect('../profiles/login')
+
+    username=request.session["username"]
+    qtype=request.session["qualification"]
+
+    if qtype=="student":
+        # messages.success(request,f"no privilage for this action")
+        # return redirect('../profiles/dashboard')
+
+        ''' display his courses and attendance for release 2'''
+
+
+    data=configure_base("home",username)
+    return render(request,"attendance_home.html",data)
 
 
 def web_input(request):
@@ -62,7 +82,7 @@ def web_input(request):
         if form.is_valid():
             data=form.cleaned_data
             verbose_name=attendance_register.generate_attendance_verobose(data)
-            if not verify_authority(data,username):
+            if not verify_authority(data,username,qtype):
                 messages.success(request,f"no privilage for this action")
                 return redirect('../home')
             form=form.save(commit=False)
@@ -77,9 +97,10 @@ def web_input(request):
                 form.entry_instructor=obj
             form.entry_timestamp=datetime.today()
             form.save()
-            api_queue.objects.Create(form)
+            # course=form.course
+            api_queue.objects.create(details=form,status="pending")
             messages.success(request,f"sent files for marking attendance")
-            return redirect('.')
+            return redirect("./details/"+str(form.pk))
 
 def history_courses(request):
     
@@ -133,9 +154,9 @@ def details(request,pk):
         return redirect('../profiles/dashboard')
 
 
-    result=attendance_register.details(id=pk)
+    result,names=attendance_register.details(id=pk)
     print(result.roll_calls)
-    data=configure_base("details",username,{"details":result})
+    data=configure_base("details",username,{"details":result,"names":names})
     return render(request,'entry_details.html',data)
 
 def modify(request,pk):

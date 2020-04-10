@@ -40,7 +40,8 @@ class attendance_register(models.Model):
     @classmethod
     def details(cls,id):
         result=attendance_register.objects.get(pk=id)
-        return result
+        names=result.roll_calls.all()
+        return result,names
 
     @classmethod
     def history(cls,course):

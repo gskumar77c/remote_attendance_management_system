@@ -2,15 +2,12 @@ from django.urls import path,include
 from . import views
 
 urlpatterns=[
-    path('',views.home),
-    path('new_entry', views.web_input),
-    path('history',views.history_courses,name='history-courses'),
-    path('history/<pk>', views.history),
-    path('details/<int:pk>',views.details),
-    path('modify/<int:pk>',views.modify,name='modify-attendance'),
-    # path('coursedetails',views.coursedetails,name= 'course-details'),
-    # path('floated_courses',views.show_floated_courses,name='floated-courses'),
-    # path('add_request',views.send_request,name='add-request'),
-    # path('enrolled_courses',views.enrolled_courses,name='enrolled-courses')
-    # path('registered')
+
+    path('',views.home,name="attendance.home"),
+    path('new_entry', views.web_input,name="attendance.new_entry"),
+    path('history',views.history_courses,name="attendance.history_courses"),
+    path('history/<pk>', views.history,name="attendance.history"),
+    path('details/<int:pk>',views.details,name="attendance.details"),
+    path('modify/<int:pk>',views.modify,name="modify-attendance")
+
 ]
