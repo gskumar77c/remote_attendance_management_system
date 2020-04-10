@@ -155,7 +155,7 @@ def details(request,pk):
 
 
     result,names=attendance_register.details(id=pk)
-    print(result.roll_calls)
+    print(result.roll_calls,names)
     data=configure_base("details",username,{"details":result,"names":names})
     return render(request,'entry_details.html',data)
 
@@ -188,7 +188,8 @@ def modify(request,pk):
             if ele not in previous_list:
                 result.roll_calls.add(ele)
                 print('adding',ele)
-                
+        messages.success(request,f"Modified")
+        return redirect(reverse('attendance.home'))
 
     result=attendance_register.objects.get(pk=pk)
     course_name = result.course.name
@@ -205,5 +206,5 @@ def modify(request,pk):
     print(final_list)
     data=configure_base("modify",username,{"details":final_list,'id':pk})
 
-    return render(request,'modify_attendance.html',data)
+    return render(request,'entry_modify.html',data)
 
