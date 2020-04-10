@@ -5,7 +5,7 @@
 {% block content %}
 
  	<div class="container">
- 	<form action="{% url 'floated-courses' %}" method="POST">
+ 	<form action="{% url 'courses.floated' %}" method="POST">
  		{% csrf_token %}
  	<table class="table table-hover">
  		<tr>

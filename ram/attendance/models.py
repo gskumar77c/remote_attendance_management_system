@@ -53,6 +53,8 @@ class attendance_register(models.Model):
         attendance_register.objects.update(roll_calls=calls)
         return
         
+    def __str__(self):
+        return self.course.course_id + "  |  " + self.slot.__str__() + "  |  " + str(self.date)
 
 
 

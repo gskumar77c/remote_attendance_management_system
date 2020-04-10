@@ -7,6 +7,6 @@ urlpatterns=[
     path('floated_courses',views.show_floated_courses,name='courses.floated'),
     path('enrolled_courses',views.enrolled_courses,name='courses.enrolled'),
     path('joined_courses',views.joined_courses,name='courses.joined'),
-    path('student_requests',views.student_requests,name='courses.request')
+    path('student_requests',views.student_requests,name='courses.requests')
     # path('registered')
 ]
