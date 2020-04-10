@@ -22,13 +22,13 @@
  			<td>{{crse.course.name}}</td>
  			<td>{{crse.course.department}}</td>
  			<td>
- 				<a class="btn bg-primary" href="{% url 'student-requests' %}?id={{crse.course.course_id}}&list_type=enrolled">Enrolled List
+ 				<a class="btn bg-primary" href="{% url 'courses.requests' %}?id={{crse.course.course_id}}&list_type=enrolled">Enrolled List
  				</a>
  				{% if qtype == 'instructor' %}
- 				<a class="btn bg-success" href="{% url 'student-requests' %}?id={{crse.course.course_id}}&list_type=requests">Add Requests</a>
+ 				<a class="btn bg-success" href="{% url 'courses.requests' %}?id={{crse.course.course_id}}&list_type=requests">Add Requests</a>
  				{% endif %}
- 				<a class="btn bg-warning" href="{% url 'student-requests' %}?id={{crse.course.course_id}}&list_type=attendance">Attendance</a>
- 				<a class="btn bg-secondary" href="{% url 'course-details' %}?id={{crse.course.course_id}}">Course Details</a>
+ 				<a class="btn bg-warning" href="{% url 'courses.requests' %}?id={{crse.course.course_id}}&list_type=attendance">Attendance</a>
+ 				<a class="btn bg-secondary" href="{% url 'courses.details' %}?id={{crse.course.course_id}}">Course Details</a>
  			</td>
  		</tr>
  		{% endfor %}
@@ -56,9 +56,9 @@
 	 			<td>{{crse.course.department}}</td>
 	 			<td>{{crse.action}}</td>
 	 			<td>
-	 				<a class="btn bg-success" href="{% url 'course-details' %}?id={{crse.course.course_id}}">view Attendance</a>
-	 				<a class="btn bg-success" href="{% url 'course-details' %}?id={{crse.course.course_id}}">Student List</a>
-	 				<a class="btn bg-success" href="{% url 'course-details' %}?id={{crse.course.course_id}}">view course details</a>
+	 				<a class="btn bg-success" href="{% url 'courses.details' %}?id={{crse.course.course_id}}">view Attendance</a>
+	 				<a class="btn bg-success" href="{% url 'courses.details' %}?id={{crse.course.course_id}}">Student List</a>
+	 				<a class="btn bg-success" href="{% url 'courses.details' %}?id={{crse.course.course_id}}">view course details</a>
 	 			</td>
 	 		</tr>
 	 		{% endfor %}

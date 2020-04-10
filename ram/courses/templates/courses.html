@@ -16,7 +16,7 @@
  			<td>{{course.course_id}}</td>
  			<td>{{course.name}}</td>
  			<td>{{course.department}}</td>
- 			<td><a class="btn bg-success" href="{% url 'course-details' %}?id={{course.course_id}}">view</a></td>
+ 			<td><a class="btn bg-success" href="{% url 'courses.details' %}?id={{course.course_id}}">view</a></td>
  		</tr>
  		{% endfor %}
  	</table>

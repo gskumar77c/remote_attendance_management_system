@@ -40,7 +40,7 @@ def verify_authority(data,username,qtype):
 
 def home(request):
     if "username" not in request.session:
-        return redirect('../profiles/login')
+        return redirect(reverse("profiles.login"))
 
     username=request.session["username"]
     qtype=request.session["qualification"]
@@ -58,14 +58,14 @@ def home(request):
 
 def web_input(request):
     if "username" not in request.session:
-        return redirect('../profiles/login')
+        return redirect(reverse("profiles.login"))
 
     username=request.session["username"]
     qtype=request.session["qualification"]
 
     if qtype=="student":
         messages.success(request,f"no privilage for this action")
-        return redirect('../profiles/dashboard')
+        return redirect(reverse("profiles.dashboard"))
 
     if request.method=="GET":
 
@@ -80,7 +80,7 @@ def web_input(request):
             verbose_name=attendance_register.generate_attendance_verobose(data)
             if not verify_authority(data,username,qtype):
                 messages.success(request,f"no privilage for this action")
-                return redirect('../home')
+                return redirect(reverse("attendance.home"))
             form=form.save(commit=False)
             form.attendance_verbose=verbose_name
             print(form.attendance_verbose,"|"*10)
@@ -96,19 +96,19 @@ def web_input(request):
             # course=form.course
             api_queue.objects.create(details=form,status="pending")
             messages.success(request,f"sent files for marking attendance")
-            return redirect("./details/"+str(form.pk))
+            return redirect(reverse("attendance.details",pk=form.pk))
 
 def history_courses(request):
     
     if "username" not in request.session:
-        return redirect('../profiles/login')
+        return redirect(reverse("profiles.login"))
 
     username=request.session["username"]
     qtype=request.session["qualification"]
 
     if qtype=="student":
         messages.success(request,f"no privilage for this action")
-        return redirect('../profiles/dashboard')
+        return redirect(reverse("profiles.dashboard"))
 
     ulog=None
     if qtype=="instructor":
@@ -125,14 +125,14 @@ def history_courses(request):
 def history(request,pk):
 
     if "username" not in request.session:
-        return redirect('../profiles/login')
+        return redirect(reverse("profiles.login"))
 
     username=request.session["username"]
     qtype=request.session["qualification"]
 
     if qtype=="student":
         messages.success(request,f"no privilage for this action")
-        return redirect('/../profiles/dashboard')
+        return redirect(reverse("attendance.home"))
 
     results=attendance_register.history(pk)
     data=configure_base("history_list",username,{"entries":results})
@@ -140,14 +140,14 @@ def history(request,pk):
 
 def details(request,pk):
     if "username" not in request.session:
-        return redirect('../profiles/login')
+        return redirect(reverse("profiles.login"))
 
     username=request.session["username"]
     qtype=request.session["qualification"]
 
     if qtype=="student":
         messages.success(request,f"no privilage for this action")
-        return redirect('../profiles/dashboard')
+        return redirect(reverse("attendance.home"))
 
 
     result,names=attendance_register.details(id=pk)
@@ -157,12 +157,12 @@ def details(request,pk):
 
 def modify(request,pk):
     if "username" not in request.session:
-        return redirect('../profiles/login')
+        return redirect(reverse("profiles.login"))
 
     username=request.session["username"]
     qtype=request.session["qualification"]
 
     if qtype=="student":
         messages.success(request,f"no privilage for this action")
-        return redirect('../profiles/dashboard')
+        return redirect(reverse("attendance.home"))
     

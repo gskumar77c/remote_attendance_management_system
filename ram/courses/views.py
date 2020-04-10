@@ -9,12 +9,12 @@ from datetime import date
 import datetime
 from .page_config import configure_base
 # Create your views here.
-
+from django.urls import reverse
 
 
 def all_courses(request):
 	if "username" not in request.session:
-		return redirect('../profiles/login')
+		return redirect(reverse("profiles.login"))
 	username=request.session["username"]
 	qtype=request.session["qualification"]
 
@@ -29,7 +29,7 @@ def all_courses(request):
 
 def coursedetails(request):
 	if "username" not in request.session:
-		return redirect('../profiles/login')
+		return  redirect(reverse("profiles.login"))
 
 	username=request.session["username"]
 	qtype=request.session["qualification"]
@@ -43,13 +43,13 @@ def coursedetails(request):
 
 def show_floated_courses(request):
 	if "username" not in request.session:
-		return redirect('../profiles/login')
+		return  redirect(reverse("profiles.login"))
 
 	username=request.session["username"]
 	qtype=request.session["qualification"]
 	usr = user.objects.get(email=username)
 	if usr.status == False:
-		return redirect('all-courses')
+		return  redirect(reverse("courses.all"))
 	
 
 	if request.method == 'POST':
@@ -125,13 +125,13 @@ def show_floated_courses(request):
 
 def enrolled_courses(request):
 	if "username" not in request.session:
-		return redirect('../profiles/login')
+		return  redirect(reverse("profiles.login"))
 
 	username=request.session["username"]
 	qtype=request.session["qualification"]
 	usr = user.objects.get(email=username)
 	if usr.status == False:
-		return redirect('all-courses')
+		return  redirect(reverse("courses.all"))
 
 	
 
@@ -175,13 +175,13 @@ def enrolled_courses(request):
 
 def joined_courses(request):
 	if "username" not in request.session:
-		return redirect('../profiles/login')
+		return  redirect(reverse("profiles.login"))
 
 	username=request.session["username"]
 	qtype=request.session["qualification"]
 	usr = user.objects.get(email=username)
 	if usr.status == False:
-		return redirect('all-courses')
+		return redirect(reverse("courses.all"))
 
 
 	data = configure_base('joined-courses',username,{'qtype':qtype})
@@ -198,12 +198,12 @@ def joined_courses(request):
 
 def student_requests(request):
 	if "username" not in request.session:
-		return redirect('../profiles/login')
+		return  redirect(reverse("profiles.login"))
 	username=request.session["username"]
 	qtype=request.session["qualification"]
 	usr = user.objects.get(email=username)
 	if usr.status == False:
-		return redirect('all-courses')
+		return redirect(reverse("courses.all"))
 
 
 	if request.method == 'POST':

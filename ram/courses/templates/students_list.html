@@ -14,7 +14,7 @@
  		<h3>Attendance of the Enrolled students in {{courseid}} Course</h3>
  		{% endif %}
 
- 	<form action="{% url 'student-requests' %}" method="POST">
+ 	<form action="{% url 'courses.requests' %}" method="POST">
  		{% csrf_token %}
  		<input type="text" name="courseid" hidden="True" value="{{courseid}}">
  		<input type="text" name="list_type" hidden="True" value="{{list_type}}">
