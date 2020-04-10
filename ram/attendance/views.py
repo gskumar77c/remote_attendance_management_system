@@ -144,8 +144,11 @@ def history(request,pk):
         course_name = result.course.name
         attended_students = result.roll_calls.all().__len__()
         enrolled_students = course_student_log.current_status().filter(course__name=course_name).__len__()
-        percentage = (attended_students * 100)/enrolled_students
-        final_list.append({'entry':result,'percent':percentage})
+        try:
+            percentage = (attended_students * 100)/enrolled_students
+        except:
+            percentage=0
+        final_list.append({'entry':result,'percent':percentage,'status':result.is_marked})
 
 
     data=configure_base("history_list",username,{"entries":final_list})
