@@ -3,7 +3,7 @@
 {% block content %}
 
 {% for entry in entries %}
-<div class="card" style="width: 50%;" onclick="location.href = '../details/{{ entry.pk }}';" >
+<div class="card" style="width: 50%;" onclick="location.href='{% url 'attendance.details' pk=entry.pk %}';" >
     <div class="row" style="height: 1cm;" >
         <div class="col-md-7">
             {{ entry }}
@@ -20,3 +20,4 @@
 {% endfor %}
 
 {% endblock %}
+<!-- "location.href = '../details/{{ entry.pk }}';"  -->

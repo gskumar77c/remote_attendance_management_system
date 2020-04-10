@@ -96,7 +96,7 @@ def web_input(request):
             # course=form.course
             api_queue.objects.create(details=form,status="pending")
             messages.success(request,f"sent files for marking attendance")
-            return redirect(reverse("attendance.details",pk=form.pk))
+            return redirect(reverse("attendance.details",args=(form.pk,) ))
 
 def history_courses(request):
     

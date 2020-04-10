@@ -14,7 +14,7 @@ def configure_base(arg,name="not logged in",additional_dictionary={}):
             data["form"]={}
         else:
             
-            data["navbar"]=[["Login","../profiles/login"]]
+            data["navbar"]=[["Login","../profiles/login"],["Register",reverse("profiles.register")]]
             data["type"]="Login"
             data["type_link"]=reverse("profiles.login")
             data["name"]=name

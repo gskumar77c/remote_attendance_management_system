@@ -19,7 +19,7 @@ def configure_base(arg,name="Not logged in ",additional_dictionary={}):# use add
 
     if arg=="login":
         data["title"]="Login"
-        data["navbar"]=[["Home",reverse("institution.home")],["Login",reverse("profiles.login")]]
+        data["navbar"]=[["Home",reverse("institution.home")],["Login",reverse("profiles.login")],["Register",reverse("profiles.register")]]
         data["type"]="Register"
         data["type_link"]=reverse("profiles.register")
         data["name"]=name
