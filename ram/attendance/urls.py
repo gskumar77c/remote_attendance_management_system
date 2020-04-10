@@ -8,6 +8,6 @@ urlpatterns=[
     path('history',views.history_courses,name="attendance.history_courses"),
     path('history/<pk>', views.history,name="attendance.history"),
     path('details/<int:pk>',views.details,name="attendance.details"),
-    path('modify/<int:pk>',views.modify,name="modify-attendance")
+    path('modify/<int:pk>',views.modify,name="attendance.modify")
 
 ]
