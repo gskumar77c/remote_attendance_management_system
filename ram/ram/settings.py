@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'courses',
     'attendance',
     'restapi',
-    'rest_framework'
+    'rest_framework',
+    'vidmi_interface',
+    'background_task',
 ]
 
 MIDDLEWARE = [

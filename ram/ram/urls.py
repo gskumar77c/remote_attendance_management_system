@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path,include
 from django.shortcuts import redirect
 from . import views
+from vidmi_interface.views import check_pending
 
 urlpatterns = [
     path('', lambda request: redirect('institution/', permanent=False)),
@@ -27,5 +28,8 @@ urlpatterns = [
     path('profiles/',include('profiles.urls')),
     path('courses/',include('courses.urls')),
     path('attendance/',include('attendance.urls')),
-   
+
 ]
+
+# the following periodically checks for pending entries
+check_pending(repeat=1*60,repeat_until=None)
