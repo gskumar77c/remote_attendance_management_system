@@ -9,6 +9,8 @@ from profiles.models import ta as ta_model
 from datetime import datetime
 from courses.models import *
 from django.utils import timezone
+from courses.models import course,course_student_log
+from django.http import HttpResponse
 # Create your views here.
 
 def get_instance(username,qtype):
@@ -53,7 +55,7 @@ def web_input(request):
 
         form=attendance_register_form()
         data=configure_base("new attendance",username,{"form":form})
-        return render(request,'attendance.html',data)
+        return render(request,'new_attendance.html',data)
 
     else:
         form=attendance_register_form(request.POST,request.FILES)
@@ -146,4 +148,43 @@ def modify(request,pk):
     if qtype=="student":
         messages.success(request,f"no privilage for this action")
         return redirect('../profiles/dashboard')
-    
+
+    if request.method == 'POST':
+        modified_list = request.POST.getlist('student')
+
+        result=attendance_register.objects.get(pk=pk)
+        course_name = result.course.name
+        previous_list = result.roll_calls.all()
+
+        print("previous_list",previous_list)
+        print('updated list',modified_list)
+        for ele in previous_list:
+            if ele not in modified_list:
+                result.roll_calls.remove(ele)
+                print('deleting',ele)
+
+        for ele in modified_list:
+            if ele not in previous_list:
+                result.roll_calls.add(ele)
+                print('adding',ele)
+                
+
+    result=attendance_register.objects.get(pk=pk)
+    course_name = result.course.name
+    attended_students = result.roll_calls.all()
+
+    enrolled_students = course_student_log.current_status().filter(course__name=course_name)
+    final_list = []
+    for ele in enrolled_students:
+        if ele.name in attended_students:
+            final_list.append({'student':ele.name,'present':True})
+        else:
+            final_list.append({'student':ele.name,'present':False})
+
+    print(final_list)
+    data=configure_base("modify",username,{"details":final_list,'id':pk})
+
+    return render(request,'modify_attendance.html',data)
+
+
+

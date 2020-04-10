@@ -58,7 +58,7 @@ def show_floated_courses(request):
 		if qtype == 'student':
 			for courseid in course_list:
 				course = models.course.objects.get(course_id=courseid)
-				date1 = date.today()
+				date1 = datetime.datetime.now()
 				name = student.objects.get(user__email = username)
 				action = 'requested'
 				try:
@@ -77,7 +77,7 @@ def show_floated_courses(request):
 		elif qtype == 'ta':
 			for courseid in course_list:
 				course = models.course.objects.get(course_id=courseid)
-				date1 = date.today()
+				date1 = datetime.datetime.now()
 				name = ta.objects.get(user__email = username)
 				action = 'joined'
 				try:
@@ -96,7 +96,7 @@ def show_floated_courses(request):
 		else:
 			for courseid in course_list:
 				course = models.course.objects.get(course_id=courseid)
-				date1 = date.today()
+				date1 = datetime.datetime.now()
 				name = instructor.objects.get(user__email = username)
 				action = 'joined'
 				try:
@@ -142,7 +142,7 @@ def enrolled_courses(request):
 		if qtype == 'student':
 			for courseid in course_list:
 				course = models.course.objects.get(course_id=courseid)
-				date1 = date.today()
+				date1 = datetime.datetime.now()
 				name = student.objects.get(user__email = username)
 				action='enrolled'
 				try:
@@ -166,6 +166,9 @@ def enrolled_courses(request):
 	pending_courses = current_list.filter(name__user__email=username,action='requested')
 	completed_courses = current_list.filter(name__user__email=username,action='completed')
 	failed_courses = current_list.filter(name__user__email=username,action='failed')
+	print(current_list)
+	print(enrolled_courses)
+	print(pending_courses)
 	data['completed_courses'] = list(completed_courses)
 	data['failed_courses'] = list(failed_courses)
 	data['pending_courses'] = list(pending_courses)
@@ -211,7 +214,7 @@ def student_requests(request):
 		list_type = request.POST.get('list_type')
 		selected_students = request.POST.getlist('student')
 		message_string = ""
-		date1 = date.today()
+		date1 = datetime.datetime.now()
 		for student in selected_students:
 				try:
 					q = models.course_student_log.current_status().filter(course__course_id=courseid,name__user__email=student,action='requested')

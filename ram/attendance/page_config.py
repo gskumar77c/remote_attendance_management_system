@@ -48,3 +48,16 @@ def configure_base(arg,name="Not logged in ",additional_dictionary={}):# use add
         data["detail"]=additional_dictionary["details"]
     
         return data
+
+
+    if arg=="modify":
+        data["title"]="Modify Attendance"
+        # data["navbar"]=[["Home","../institution"],["Logout","./logout"],["Courses","../courses"],["Attendance","../attendance"]]
+        data["navbar"]=[["Home","/../institution"],["Logout","/../profiles/logout"],["Courses","/../courses"],["Attendance","/../attendance"]]        
+        data["type"]="Logout"
+        data["type_link"]="./logout"
+        data["name"]=name
+        data["student_list"]=additional_dictionary["details"]
+        data['id'] = additional_dictionary['id']
+    
+        return data
