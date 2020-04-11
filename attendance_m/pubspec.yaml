@@ -26,9 +26,14 @@ dependencies:
   cupertino_icons: ^0.1.2
   http: ^0.12.0
   shared_preferences: any   
-  path_provider: any
+  http_parser: ^3.1.4
+  path_provider: any 
+  sms: ^0.2.4
   scoped_model: ^1.0.1
   file_picker: ^1.5.0+2
+  mime: ^0.9.6+3
+  archive: any
+
   
 dev_dependencies:
   fluttertoast: ^3.1.3 

@@ -12,32 +12,21 @@ from django import forms
 
 
 class getImage(APIView):
-    permission_classes = (IsAuthenticated,)   
-
-    # print("image")
-    # form_class = FileFieldForm
-    # template_name = 'upload.html'  # Replace with your template.
-    # success_url = '...'  # Replace with your URL or reverse().
+    permission_classes = (IsAuthenticated,)    
     
     parser_classes = (FileUploadParser, )
-    def post(self, request):
-        # form_class = self.get_form_class()
-        # form = self.get_form(form_class)
-        # files = request.FILES.getlist('file_field')
-        # if form.is_valid():
-        #     for f in files:
-        #         print("got new file")
-        #     return self.form_valid(form)
-        # else:
-        #     return self.form_invalid(form)
-        try:
-            up_file = request.FILES['image_file1']
-            destination = open("D:/Development_Engineering_Prj/farmers_mate_mate/lib/" + up_file.name, 'wb+')
-            for chunk in up_file.chunks():
-                destination.write(chunk)
-            destination.close()  # 
-        except Exception as e:
-            print (e ) 
+    def post(self, request,format=None): 
+        if request.method == "POST":
+            image = request.FILES['image'] 
+            print("done")
+        # try:
+        #     up_file = request.FILES['image_file1']
+        #     destination = open("D:/Development_Engineering_Prj/farmers_mate_mate/lib/" + up_file.name, 'wb+')
+        #     for chunk in up_file.chunks():
+        #         destination.write(chunk)
+        #     destination.close()  # 
+        # except Exception as e:
+        #     print (e ) 
 
         return Response(status =204)
         #     return Response(status, 

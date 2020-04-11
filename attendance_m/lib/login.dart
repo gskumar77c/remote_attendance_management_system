@@ -1,11 +1,12 @@
 import 'package:attendance_marker/main.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
+import 'sms_otp.dart';
 import 'dart:convert';  
 import 'package:flutter/services.dart'; 
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';  
- 
+import 'package:shared_preferences/shared_preferences.dart';   
+import 'dart:math'; 
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,10 +15,14 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   
-   String _email;
-   String _password_1;
-   String _password_2;
-   bool _isLoading = false;
+   String _email="";
+   FlutterOtp otp= new FlutterOtp();
+   String otp_number="";
+  String _generated_otp="";
+   String password=""; 
+   static bool _isLoading = false;
+   static  bool _isOTP = false;
+    String _enteredOTP = ""; 
 
  
 
@@ -27,15 +32,7 @@ class _LoginPageState extends State<LoginPage> {
     return new Scaffold( 
 
       appBar: AppBar(
-        title: Text("FaceScan : login page", style: TextStyle(color: Colors.white)),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () {              
-              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => MainPage()), (Route<dynamic> route) => false);
-            },
-            child: Text("<1>Main", style: TextStyle(color: Colors.white, fontSize: 20),),
-          ),
-        ],
+        title: Text("       FaceScan :     Login", style: TextStyle(color: Colors.white)), 
       ),
 
       body: Container(
@@ -54,11 +51,10 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  
-//  TextEditingController emailController = new TextEditingController();
-//  TextEditingController passwordController = new TextEditingController();
+   
 
   final _formKey = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
   
   Widget _showForm() {
     return new Container(
@@ -70,8 +66,7 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               showLogo(),
               showEmailInput(),
-              showPasswordInput(1),
-              showPasswordInput(2),
+              showPasswordInput(1), 
               showPrimaryButton(),
               // buttonSection(),
             ],
@@ -115,9 +110,56 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+  Widget showMobileOtp() { 
+    return new Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      child: new TextFormField(
+        maxLines: 1,
+        decoration: new InputDecoration(
+            hintText: 'Mobile Number',
+            hintStyle: TextStyle(color: Colors.grey),
+            icon: new Icon(
+              Icons.phone_android,
+              color: Colors.blue[900],
+            )), 
+        keyboardType: TextInputType.phone, 
+        onSaved: (String val) { 
+          print("$val");
+          setState(() {
+            otp_number= val;
+          });
+          
+        },
 
-  Widget showPasswordInput(int password_num) {  
-    if(password_num ==1)
+      ),
+    );
+  }
+  
+
+  Widget showOtp() { 
+    return new Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      child: new TextFormField(
+        maxLines: 1,
+        decoration: new InputDecoration(
+            hintText: 'Otp Number',
+            hintStyle: TextStyle(color: Colors.grey),
+            icon: new Icon(
+              Icons.verified_user,
+              color: Colors.blue[900],
+            )), 
+        keyboardType: TextInputType.number, 
+        onSaved: (String val) { 
+          print("$val");
+          setState(() {
+            _enteredOTP = val;
+          }); 
+        }, 
+      ),
+    );
+  }
+
+  Widget showPasswordInput(int password_num) {   
 
       return new Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
@@ -137,46 +179,21 @@ class _LoginPageState extends State<LoginPage> {
 
           validator: validatePassword,
           onSaved: (String val) {
-            _password_1= val;
+            password= val;
           },
 
         ),
       );
-
-    else  
-
-      return new Padding(
-          padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-          child: new TextFormField(
-            maxLines: 1,
-            obscureText: true,
-            autofocus: false,
-            decoration: new InputDecoration(
-                hintText: 'Password',
-                hintStyle: TextStyle(color: Colors.white),
-                icon: new Icon(
-                  Icons.lock,
-                  color: Colors.yellow[200],
-                )),
-
-            keyboardType: TextInputType.text,    
-
-            validator: validatePassword,
-            onSaved: (String val) {
-              _password_2= val;
-            },
-          ),
-        );
   }
 
  Widget showLogo() {
     return new Hero(
       tag: 'hero',
       child: Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
         child: CircleAvatar(
           backgroundColor: Colors.orange[300],
-          radius: 150.0, 
+          radius: 130.0, 
           child: Image.asset('assets/iitrpr_logo.jpeg'),
         ),
       ),
@@ -211,78 +228,56 @@ class _LoginPageState extends State<LoginPage> {
         return [true,"Acceptable Password"];  
   }
   
-
-  List match_password (String password_1, String password_2)
-  {
-      if (password_verification(password_1)[0] ==  true && password_verification(password_2)[0] ==  true ){
-        if (password_1 == password_2)
-          return [true, "Acceptable Password"];
-        else 
-          return [false,"non-matching passwords !! "]; 
-      }
-      else if( password_verification(password_1)[0] ==  false ){
-        String reason = password_verification(password_1)[1];
-        return [false,  reason];
-      }
-      else{
-        String reason = password_verification(password_2)[1];
-        return [false,  reason];
-      }
-
-  }
-
   void validateAndSubmit(){
+    
+    // remove later 
+
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       print('valid');
-    }
+    } 
+    print('Signed in: $_email, with password $password .');  
 
-    String userId = _email;
-    print('Signed in: $userId, with password $_password_1 .');
-
-    if (validateEmail(_email) == null  && match_password (_password_1, _password_2)[0] == true )
+    if (validateEmail(_email) == null  && password_verification(password)[0]==true )
     {
       setState(() {
         _isLoading = true;
       });
-      signIn(_email, _password_1); 
+      signIn(_email, password); 
     }
+    else if ( validateEmail(_email) != null ) 
+          print("Invalid Email Address !!"); 
     else{
-        if ( validateEmail(_email) != null ){
-          print("Invalid Email Address !!");
-        }
-      else{
-          String reason = match_password (_password_1, _password_2)[1];
-          print("$reason");
-        }
-    } 
+        String reason = password_verification (password)[1];
+        print("$reason");
+      }
+    
   }
  
 
 
   signIn(String email , String pass) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
     var data = 
     {
-         'username' : 'username',
-         'password' : 'password', 
+         'username' : email,
+         'password' : pass,
+      // 'Authorization': 'Token 88f95c3f76da99c3403e9de1222ab153bee9ecd6', 
     }; 
 
     String jasonStringLogin = json.encode(data);  
-
     String url_login = "http://192.168.43.178:8080/api-token-auth/" ;
-    var response = await http.post(url_login , body: data); 
+    var response = await http.post(url_login , body: data);      
     var jsonResponse;
     if(response.statusCode == 200) { 
-      jsonResponse = json.decode(response.body);
-
+      jsonResponse = json.decode(response.body); 
       if(jsonResponse != null) {
           setState(() {
             _isLoading = false;
           });         
           sharedPreferences.setString("token", jsonResponse['token']);
-
-          // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => Homepage()), (Route<dynamic> route) => false);
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => Homepage(sharedPreferences)), (Route<dynamic> route) => false);
         }
       }
       else {
@@ -290,49 +285,107 @@ class _LoginPageState extends State<LoginPage> {
           _isLoading = false;
         });
         print(response.body);
-      }
-             // fetch data
-      String url_data = 'http://192.168.43.178:8080/teacher_profile/' ;
-      var credentials ={ 'Authorization': ('Token '+ jsonResponse['token']), };
-      // String c = 'Authorization: Token '+ jsonResponse['token'];
-      // print(c);
-      var response2 = await http.post(url_data , headers: credentials);
-
-      if(response2.statusCode == 200) { 
-          jsonResponse = json.decode(response2.body);
-          if(jsonResponse != null) { 
-              // setState(() {
-              //     _isLoading = false;
-              //   });   
-              print(jsonResponse[0]["message"]);
-              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => Homepage()), (Route<dynamic> route) => false);
-          }
-      }
-      else {
-        setState(() {
-          _isLoading = false;
-        });
-        print(response2.body);
-      }
+      } 
   }
 
 
+  Future<void>  show_TandC(){
+    return showDialog(context: context, builder:(BuildContext context){
+      return AlertDialog(
+        title: Text("Terms & condition"),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[ Text("This is a attendance management app"), 
+            ],
+          ),
+        ),
+      );
+    });
+  }
+  Future<void>  show_forgot_password() async{
+    return showDialog(context: context, builder:(BuildContext context){
+      return AlertDialog(
+        title: Text("Terms & condition"),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[ Text("Enter Email Id"), 
+            Container(
+              padding: EdgeInsets.all(16.0),
+              child: new Form(
+                key: _formKey2,
+                child: new ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[ 
+                    showMobileOtp(), 
+                    
+                    RaisedButton(
+                      elevation: 5.0,
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)),
+                      color: Colors.blue,
+                      child: new Text(  'send', style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+                      onPressed:(){ 
+                         _formKey2.currentState.save();
+                             otp.sendOtp(otp_number);  
+                      },
+                    ), 
 
+                    showOtp() ,
 
+                      RaisedButton(
+                      elevation: 5.0,
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)),
+                      color: Colors.blue,
+                      child: new Text(  "check" , style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+                      onPressed:(){ 
+                         _formKey2.currentState.save();
+                             if(otp.resultChecker( _enteredOTP)) 
+                                 print("otp succesful"); 
+                              else
+                                print("Retry");  
+ 
+                      },
+                    ),
+                  ],
+                ),
+              )),
+           ],
+          ),
+        ),
+      );
+    });
+  }
+
+ 
   Widget showPrimaryButton() {
     return new Padding(
-        padding: EdgeInsets.fromLTRB(40.0, 45.0, 40.0, 0.0),
-        child: SizedBox(
-          height: 40.0,
-          child: new RaisedButton(
-            elevation: 5.0,
-            shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(30.0)),
-            color: Colors.blue,
-            child: new Text('Login',
-                style: new TextStyle(fontSize: 20.0, color: Colors.white)),
-            onPressed:(){ signIn("_email", "_password_1");},
-          ),  
+        padding: EdgeInsets.fromLTRB(20.0, 25.0, 20.0, 0.0),
+        child: SizedBox( 
+          child:Column(
+            children: <Widget>[
+              
+                new RaisedButton(
+                  elevation: 5.0,
+                  shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(30.0)),
+                  color: Colors.blue,
+                  child: new Text('Login',
+                      style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+                  onPressed:validateAndSubmit,
+                 ),
+
+                MaterialButton(
+                  onPressed: show_forgot_password,
+                  child: Text("Forgot Password ?",  style: new TextStyle( color: Colors.white)),
+                ),
+                MaterialButton(
+                  onPressed:show_TandC,
+                  child: Text("Terms & Conditions ?",   style: new TextStyle( color: Colors.black)),
+                ),
+
+             ],
+          )   
         ));
   }
 }

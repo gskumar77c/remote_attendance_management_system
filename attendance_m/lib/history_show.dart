@@ -15,25 +15,30 @@ class _LandingScreenState extends State<HistoryScreen> {
 
   String  subject_id="";
   String  student_id="";
-  String  message= ""; 
-  var studentsList = new List<student_class>(); 
+  String  message= "";  
 
   @override
   void initState() {
-    super.initState();
-    studentsList.add(student_class("Raj","123456")); 
-    studentsList.add(student_class("Raj2","123756")); 
-    studentsList.add(student_class("Raj3","125456")); 
-    studentsList.add(student_class("Raj4","12756")); 
-    studentsList.add(student_class("Raj5","129456")); 
-    studentsList.add(student_class("Raj6","128456")); 
+    super.initState(); 
   } 
  
 
   // Default Radio Button Selected Item.
   String radioItemHolder = 'All';
   // Group Value for Radio Button.
-  int group_id = 1;
+  int group_id = 1; 
+  String  choosed_student_id="";
+  List<subject> subject_list ;
+  List<student_class> student_list ;
+
+
+  _LandingScreenState()
+  {
+    subject_list = new List<subject> ();    
+    for (var item in teacher_details.subject_detail_list) {
+      subject_list.add( new subject(item.subject_id , item.subject_name) );
+    }
+  }
 
   List<NumberList> nList = [
     NumberList(
@@ -219,17 +224,21 @@ class _LandingScreenState extends State<HistoryScreen> {
                       Row(
                         mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
                         children: <Widget>[ 
-                          new Text(subject_id=="" ? "Select Subject": subject_id , style: TextStyle(fontSize: 15)),
-                          new DropdownButton<String>(
-                                hint: Text( "Subjects"), 
-                                items: <String>['subject-A', 'subject-B', 'subject-C', 'subject-D'].map((String value) {
+                          new Text( "Select Subject"  , style: TextStyle(fontSize: 15)),
+                           new DropdownButton<String>(
+                                hint: subject_id == "" ? Text( "Subjects") : Text(subject_id), 
+                                items:  subject_list.map((subject sub) {
                                   return new DropdownMenuItem<String>(
-                                    value: value,
-                                    child: new Text(value, style: TextStyle(color: Colors.blue)),
+                                    value: sub.sub_id,
+                                    child: new Text(sub.sub_name + " ("+ sub.sub_id + ") ", style: TextStyle(color: Colors.blue)),
                                   );
                                 }).toList(),
+                                // items: subject_list ,
                                 onChanged: (String val) {  
                                     subject_id = val; 
+                                    this.setState(() {
+                                        this.subject_id = val;
+                                      });
                                     print(subject_id);
                                 },
                         ),
@@ -255,7 +264,7 @@ class _LandingScreenState extends State<HistoryScreen> {
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => MainPage()), (Route<dynamic> route) => false);
           },
           // child: Text("<1>Main", style: TextStyle(color: Colors.white, fontSize: 20),),
-          child: Icon( Icons.home,  color: Colors.yellow, size: 50.0, semanticLabel: 'Main', ),
+          child: Icon( Icons.person_pin,  color: Colors.yellowAccent, size: 50.0, semanticLabel: 'Profile', ),
         ),
       ],
       ),   
@@ -280,7 +289,7 @@ class _LandingScreenState extends State<HistoryScreen> {
                   children: <Widget>[
                     RaisedButton(
                       onPressed: () {
-                        if(validate_entry()== false)
+                        if(validate_entry())
                           show_student_history(subject_id);
                         else
                             show_message(context);
@@ -301,11 +310,11 @@ class _LandingScreenState extends State<HistoryScreen> {
                     RaisedButton(
                       onPressed:() {
                         if(validate_entry()== false)
-                          // show_class_history(subject_id); 
-                           Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => DetailScreen2()),
-                            );  
+                          show_class_history(subject_id); 
+                          //  Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(builder: (context) => DetailScreen2()),
+                          //   );  
                         else
                             show_message(context);
                       },
@@ -333,6 +342,10 @@ class _LandingScreenState extends State<HistoryScreen> {
 
   bool validate_entry()
   {
+    print(subject_id);
+    print(group_id);
+    print(dates.start_date);
+    print(dates.end_date);
      if (subject_id != "") {
        if (group_id==2 && (dates.start_date==null || dates.end_date== null) ) { 
             message ="select start and end date, both !";
@@ -361,6 +374,15 @@ class _LandingScreenState extends State<HistoryScreen> {
   }
   
   Future<void> show_student_history( String  subject_id  ){
+
+    student_list = new List<student_class> ();  
+    print(subject_id)  ;
+    for (var item in teacher_details.subject_detail_list) {
+      if(item.subject_id == subject_id)
+        for (var entry in item.students_list)  
+               student_list.add( new student_class(entry.student_id , entry.student_name) );
+    }
+
     return showDialog(context: context, builder:(BuildContext context){
       return AlertDialog(
         title: Text("Alert"),
@@ -368,15 +390,17 @@ class _LandingScreenState extends State<HistoryScreen> {
           child: ListBody(
             children: <Widget>[ Text("Choose Student of course_id ABC"),
               new DropdownButton<String>(
-                                hint: Text( "Student_id + Name"), 
-                                items: studentsList.map((student_class value) {
+                                hint: student_id == ""? Text( "Student_id + Name") : Text(student_id) , 
+                                items: student_list.map((student_class value) {
                                   return new DropdownMenuItem<String>(
                                     value: value.student_id,
                                     child: new Text(value.student_id +"-" + value.student_name , style: TextStyle(color: Colors.blue)),
                                   );
                                 }).toList(),
-                                onChanged: (String val) {  
-                                    student_id = val; 
+                                onChanged: (String val) {   
+                                    setState(() {
+                                      student_id = val; 
+                                    });
                                     Fluttertoast.showToast(
                                         msg: ("$student_id is Selected ,Go BAak!"),
                                         toastLength: Toast.LENGTH_SHORT,
@@ -389,7 +413,7 @@ class _LandingScreenState extends State<HistoryScreen> {
                                     // refer to new page
                                      Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) => DetailScreen1()),
+                                          MaterialPageRoute(builder: (context) => DetailScreen1(subject_id,student_id)),
                                         );
                                       print(student_id);
                                 },

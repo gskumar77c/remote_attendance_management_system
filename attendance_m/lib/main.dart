@@ -2,24 +2,20 @@ import 'package:attendance_marker/home.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:attendance_marker/main.dart';
+import 'package:flutter/material.dart';
+import 'home.dart';
+import 'dart:convert';  
+import 'package:flutter/services.dart'; 
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';  
+ 
 
 
 void main(){
   runApp(MyApp());
 }
-
-// class MyApp extends StatelessWidget { 
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Myna',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: LoginPage(),
-//     );
-//   }
-
+ 
 
 
 class MyApp extends StatelessWidget {
@@ -42,12 +38,11 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  SharedPreferences sharedPreferences;  
-  
+  SharedPreferences sharedPreferences;   
   @override
   void initState() {
     super.initState();
-    checkLoginStatus();
+    checkLoginStatus(); 
   }
 
   checkLoginStatus() async {
@@ -55,57 +50,24 @@ class _MainPageState extends State<MainPage> {
     if(sharedPreferences.getString("token") == null) {
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
     }
+    else
+    { 
+       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("FaceScan App", style: TextStyle(color: Colors.white)),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () {
-              sharedPreferences.clear();
-              sharedPreferences.commit();
-              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
-            },
-            child: Text("Log Out", style: TextStyle(color: Colors.white)),
-          ),
-          FlatButton(
-            onPressed: () {              
-              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => Homepage()), (Route<dynamic> route) => false);
-            },
-            child: Text("Home", style: TextStyle(color: Colors.white)),
-          ),
-        ],
+      appBar: AppBar( 
       ),
 
       body: Padding(
-        padding: EdgeInsets.fromLTRB(140.0, 10.0, 20.0, 20.0),
-        child:  new ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              Text("Profile",style: TextStyle(color: Colors.blue , fontWeight: FontWeight.bold,fontSize: 30)),
-              // showLogo(), 
-            ],
-          ),
-        ),
-      drawer: Drawer(),
+        padding: EdgeInsets.fromLTRB(40.0, 10.0, 20.0, 20.0),
+        child:   Center(child: Text("HAVE PATIENCE", style: new TextStyle(fontSize: 60.0, color: Colors.blueAccent)),)  
+        ), 
     );
   }
 
-  
-  Widget showLogo() {
-    return new Hero(
-      tag: 'hero',
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-        child: CircleAvatar(
-          backgroundColor: Colors.blue[400],
-          radius: 150.0,
-          child: Image.asset('assets/bird_logo.png'),
-        ),
-      ),
-    );
-  }
+
 }
