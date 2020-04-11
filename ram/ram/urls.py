@@ -28,8 +28,8 @@ urlpatterns = [
     path('profiles/',include('profiles.urls')),
     path('courses/',include('courses.urls')),
     path('attendance/',include('attendance.urls')),
-
+    path('restapi/',include('restapi.urls'))
 ]
 
 # the following periodically checks for pending entries
-check_pending(repeat=1*60,repeat_until=None)
+# check_pending(repeat=1*60,repeat_until=None)
