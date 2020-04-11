@@ -12,7 +12,7 @@ login i3, add fluid dynamics
     create new i4, make him civil
     create new civil course
 i4->civil course
-login s3,s3->datastructure
+//login s3,s3->datastructure
 login i1->new attendance
 i1->at.status
 modify

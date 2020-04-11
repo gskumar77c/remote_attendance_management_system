@@ -5,6 +5,7 @@
 
 <div class="form-group" style="width: 8cm;background-position-x: left;">
 <form action="" method="POST"  class="post-form" enctype="multipart/form-data">
+  {% csrf_token %} 
      {% for field in form.visible_fields %}
     <div class="form-group">
       {{ field.label_tag }}
