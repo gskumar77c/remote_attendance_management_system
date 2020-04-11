@@ -14,7 +14,7 @@ from rest_framework.status import (
 )
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
-
+from django.forms.models import model_to_dict
 
 @csrf_exempt
 @api_view(["POST"])
@@ -42,9 +42,12 @@ def obtain_auth_token(request):
 @api_view(('GET',))
 @renderer_classes((TemplateHTMLRenderer, JSONRenderer))
 def TeacherView(request):
-
-    content = {'message': 'Hello, World!'}
-    return Response(content)
+	username = request.data.get("username")
+	usr = user.objects.get(email='username')
+	cnt = model_to_dict(usr)
+	print(cnt)
+	content = {'message': 'Hello, World!'}
+	return Response(content)
 
 def ClassHistory(request):
     return

@@ -166,13 +166,12 @@ def enrolled_courses(request):
 	pending_courses = current_list.filter(name__user__email=username,action='requested')
 	completed_courses = current_list.filter(name__user__email=username,action='completed')
 	failed_courses = current_list.filter(name__user__email=username,action='failed')
-	print(current_list)
-	print(enrolled_courses)
-	print(pending_courses)
+	dropped_courses = current_list.filter(name__user__email=username,action='dropped')
 	data['completed_courses'] = list(completed_courses)
 	data['failed_courses'] = list(failed_courses)
 	data['pending_courses'] = list(pending_courses)
 	data['enrolled_courses'] = list(enrolled_courses)
+	data['dropped_courses'] = list(dropped_courses)
 	return render(request,'enrolled_courses.html',data)
 
 

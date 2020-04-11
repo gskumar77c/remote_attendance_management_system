@@ -9,5 +9,6 @@ urlpatterns=[
     path('history/<pk>', views.history,name="attendance.history"),
     path('details/<int:pk>',views.details,name="attendance.details"),
     path('modify/<int:pk>',views.modify,name="attendance.modify"),
+    path('student_attendance',views.student_attendance,name='attendance.student_attendance'),
 
 ]
