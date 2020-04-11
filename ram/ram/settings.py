@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     'courses',
     'attendance',
     'restapi',
-    'rest_framework'
+    'rest_framework',
+    'vidmi_interface',
+    'background_task',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -90,11 +93,19 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'ram',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        # 'PASSWORD': 'raavan77c',
+        #'PASSWORD': 'postgres',
+        'PASSWORD': 'raavan77c',
         'HOST': 'localhost',
         'PORT': '',
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated', )
 }
 
 

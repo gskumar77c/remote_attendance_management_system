@@ -3,7 +3,7 @@ from django.contrib.auth.hashers import check_password
 from django.forms.models import model_to_dict
 from django.db.models import signals
 from django.dispatch import receiver
-
+from django.contrib.auth.models import User
 # from courses.models import courses
 from institution.models import department as department_model
 
@@ -38,6 +38,7 @@ class user(models.Model):
     qualification=models.CharField(verbose_name="qualification",max_length=10,choices=qualification_type,null=False,default='student')
     password=models.TextField(verbose_name="password",null=False)    
     
+
     def __str__(self):
         return self.email
     
@@ -65,6 +66,14 @@ class user(models.Model):
         filtered = { your_key: result[your_key] for your_key in ['email','full_name','dob','doj','image','description'] }
         # print(filtered)
         return filtered
+    @classmethod
+    def authenticate(cls,name,password):
+        res=user.verify_user(name,password)
+        if not res:
+            return None
+        obj=user.objects.get(email=name)
+        return obj
+
 
 
 class student(models.Model):
@@ -92,16 +101,14 @@ class ta(models.Model):
 
 
 
-# @receiver(signals.post_save, sender=user)
-# def add_user(sender,instance,created, **kwargs):
-#     # print(instance.model_to_dict())
-#     data=instance.model_to_dict()
-#     if data["status"]:
-#         type=data["qualification"]
-#         if type=="student":
-#             res=students.objects.get()
-        # res=.objects.get(email=instance)
-
+@receiver(signals.post_save, sender=user)
+def add_user(sender,instance,created, **kwargs):
+    # print(instance.model_to_dict())
+    data=model_to_dict(instance)
+    username=data["email"]
+    password=data["password"]
+    User.objects.create_user(username,username,password)
+    print("created")
 
     # pass
     

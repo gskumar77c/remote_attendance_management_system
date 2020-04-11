@@ -61,4 +61,8 @@ class attendance_register(models.Model):
 class api_queue(models.Model):
     details=models.ForeignKey(attendance_register,on_delete=models.CASCADE)
     status=models.CharField(max_length=10,choices=api_results,default='pending')
+
+    def __str__(self):
+        return self.details
+
     
