@@ -107,8 +107,10 @@ def add_user(sender,instance,created, **kwargs):
     data=model_to_dict(instance)
     username=data["email"]
     password=data["password"]
-    User.objects.create_user(username,username,password)
-    print("created")
+    q = User.objects.filter(username=username)
+    if q.__len__()==0:
+        User.objects.create_user(username,username,password)
+        print("created")
 
     # pass
     

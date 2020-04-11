@@ -206,7 +206,7 @@ def modify(request,pk):
     course_name = result.course.name
     attended_students = result.roll_calls.all()
 
-    enrolled_students = course_student_log.current_status().filter(course__name=course_name)
+    enrolled_students = course_student_log.current_status().filter(course__name=course_name,action='enrolled')
     final_list = []
     for ele in enrolled_students:
         if ele.name in attended_students:
@@ -221,3 +221,31 @@ def modify(request,pk):
 
 
 
+def student_attendance(request):
+    if "username" not in request.session:
+        return redirect(reverse("profiles.login"))
+
+    username=request.session["username"]
+    qtype=request.session["qualification"]
+
+    if qtype != "student":
+        messages.success(request,f"no privilage for this action")
+        return redirect(reverse("attendance.home"))
+
+    courseid = request.GET.get('id')
+    results=attendance_register.history(courseid)
+    attended = 0
+    student = student_model.objects.get(user__email=username)
+    for result in results:
+        attended_students = result.roll_calls.all()
+        if student in attended_students:
+            attended += 1
+
+    total = results.__len__()
+    if total != 0:
+        percentage = (attended*100)/total
+    else :
+        percentage = 0
+
+    data=configure_base("studednt_attendance",username,{"total":total,"attended":attended,"percent":percentage,'course':courseid})
+    return render(request,"student_attendance_view.html",data)

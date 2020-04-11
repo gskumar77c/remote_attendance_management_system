@@ -58,7 +58,7 @@
  			{% endif %}
  			<td>{{crse.course.name}}</td>
  			<td>{{crse.course.department}}</td>
- 			<td><a class="btn bg-primary" href="{% url 'courses.details' %}?id={{crse.course.course_id}}">Attendance</a>
+ 			<td><a class="btn bg-primary" href="{% url 'attendance.student_attendance' %}?id={{crse.course.course_id}}">Attendance</a>
  			</td>
  			<td>
  			<a class="btn bg-success" href="{% url 'courses.details' %}?id={{crse.course.course_id}}">view</a></td>
@@ -133,6 +133,34 @@
 	 {% endif %}
 	</div>
 
+
+<br><br>
+<div class="container">
+	<h3>Dropped Courses</h3>
+	{% if dropped_courses %}
+		<table class="table table-hover">
+	 		<tr>
+	 			<th>course id</th>
+	 			<th>course name</th>
+	 			<th>course department</th>
+	 			<th>status</th>
+	 			<th>course details</th>
+
+	 		</tr>
+	 		{% for crse in dropped_courses %}
+	 		<tr>
+	 			<td>{{crse.course.course_id}}</td>
+	 			<td>{{crse.course.name}}</td>
+	 			<td>{{crse.course.department}}</td>
+	 			<td>{{crse.action}}</td>
+	 			<td><a class="btn bg-success" href="{% url 'courses.details' %}?id={{crse.course.course_id}}">view</a></td>
+	 		</tr>
+	 		{% endfor %}
+	 	</table>
+	 {% else %}
+	 	<p>No dropped courses</p>
+	 {% endif %}
+	</div>
 
 
  {% endblock %}

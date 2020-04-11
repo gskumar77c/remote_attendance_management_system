@@ -3,7 +3,7 @@
 {% block content %}
 
 {% for ele in entries %}
-<div class="card" style="width: 50%;border-color: black;border-radius: 7px;" onclick="location.href='{% url 'attendance.details' pk=ele.entry.pk %}';"  >
+<div class="card" style="width: 60%;border-color: black;border-radius: 7px;" onclick="location.href='{% url 'attendance.details' pk=ele.entry.pk %}';"  >
     <div class="row" style="height: 1cm;" >
         <div class="col-md-5" >
             {{ ele.entry }}
