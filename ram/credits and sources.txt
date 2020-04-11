@@ -1,3 +1,18 @@
 https://github.com/BlackrockDigital/startbootstrap-simple-sidebar
 https://getbootstrap.com/docs/4.3/getting-started/download/
 http://www.java2s.com/Code/JavaScript/GUI-Components/DynamicHTMLCalendar.htm
+
+# install
+pip3 install django-widget-tweaks
+pip install django-crispy-forms
+
+add widget-tweaks,crispy-forms in settings
+
+login i3, add fluid dynamics
+    create new i4, make him civil
+    create new civil course
+i4->civil course
+login s3,s3->datastructure
+login i1->new attendance
+i1->at.status
+modify

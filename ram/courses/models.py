@@ -24,8 +24,8 @@ class course(models.Model):
     status=models.CharField(verbose_name="status",max_length=20,choices=course_statuses)
     
     def __str__(self):
-        return self.course_id + "," + self.name
-
+        s=self.course_id + "," + self.name
+        return s or ''
 class course_student_log(models.Model):
     course=models.ForeignKey(course,on_delete=models.CASCADE)
     timestamp=models.DateTimeField(verbose_name="Time stamp")
@@ -46,7 +46,8 @@ class course_student_log(models.Model):
 
 
     def __str__(self):
-        return self.name.user.email + "  -  " + self.course.course_id + "   -   " + self.action
+        s=self.name.user.email + "  -  " + self.course.course_id + "   -   " + self.action
+        return s or ''
     
 
 class course_instructor_log(models.Model):
@@ -69,7 +70,8 @@ class course_instructor_log(models.Model):
 
 
     def __str__(self):
-        return self.name.user.email + "  -  " + self.course.course_id + "   -   " + self.action
+        s=self.name.user.email + "  -  " + self.course.course_id + "   -   " + self.action
+        return s or ''
 
 class course_ta_log(models.Model):
     course=models.ForeignKey(course,on_delete=models.CASCADE)
@@ -91,8 +93,9 @@ class course_ta_log(models.Model):
 
 
     def __str__(self):
-        return self.name.user.email + "  -  " + self.course.course_id + "   -   " + self.action
+        s=self.name.user.email + "  -  " + self.course.course_id + "   -   " + self.action
 
+        return s or ''
 
 
 
