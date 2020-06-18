@@ -1,0 +1,46 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.dooboolab.fluttersound" >
+4
+5    <uses-sdk android:minSdkVersion="16" />
+5-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml
+6
+7    <uses-permission android:name="android.permission.WAKE_LOCK" />
+7-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:3:5-68
+7-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:3:22-65
+8
+9    <application>
+9-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:5:5-20:19
+10        <receiver android:name="androidx.media.session.MediaButtonReceiver" >
+10-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:6:9-11:20
+10-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:6:19-76
+11            <intent-filter>
+11-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:7:13-10:29
+12                <action android:name="android.intent.action.MEDIA_BUTTON" />
+12-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:8:17-77
+12-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:8:25-74
+13                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
+13-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:9:17-77
+13-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:9:25-74
+14            </intent-filter>
+15        </receiver>
+16
+17        <service android:name="com.dooboolab.fluttersound.BackgroundAudioService" >
+17-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:13:9-19:19
+17-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:13:18-56
+18            <intent-filter>
+18-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:14:13-18:29
+19                <action android:name="android.intent.action.MEDIA_BUTTON" />
+19-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:8:17-77
+19-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:8:25-74
+20                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
+20-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:9:17-77
+20-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:9:25-74
+21                <action android:name="android.media.browse.MediaBrowserService" />
+21-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:17:17-83
+21-->F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:17:25-80
+22            </intent-filter>
+23        </service>
+24    </application>
+25
+26</manifest>

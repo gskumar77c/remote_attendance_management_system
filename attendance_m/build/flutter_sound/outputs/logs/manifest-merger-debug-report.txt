@@ -1,0 +1,49 @@
+-- Merging decision tree log ---
+manifest
+ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:1:1-21:12
+INJECTED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:1:1-21:12
+INJECTED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:1:1-21:12
+	package
+		ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:2:3-39
+		INJECTED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml
+		INJECTED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:1:11-69
+uses-permission#android.permission.WAKE_LOCK
+ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:3:5-68
+	android:name
+		ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:3:22-65
+application
+ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:5:5-20:19
+receiver#androidx.media.session.MediaButtonReceiver
+ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:6:9-11:20
+	android:name
+		ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:6:19-76
+intent-filter#action:name:android.intent.action.MEDIA_BUTTON+action:name:android.media.AUDIO_BECOMING_NOISY
+ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:7:13-10:29
+action#android.intent.action.MEDIA_BUTTON
+ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:8:17-77
+	android:name
+		ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:8:25-74
+action#android.media.AUDIO_BECOMING_NOISY
+ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:9:17-77
+	android:name
+		ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:9:25-74
+service#com.dooboolab.fluttersound.BackgroundAudioService
+ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:13:9-19:19
+	android:name
+		ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:13:18-56
+intent-filter#action:name:android.intent.action.MEDIA_BUTTON+action:name:android.media.AUDIO_BECOMING_NOISY+action:name:android.media.browse.MediaBrowserService
+ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:14:13-18:29
+action#android.media.browse.MediaBrowserService
+ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:17:17-83
+	android:name
+		ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml:17:25-80
+uses-sdk
+INJECTED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml
+INJECTED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml
+		ADDED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml
+		INJECTED from F:\r_programming\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_sound-3.1.5+1\android\src\main\AndroidManifest.xml
