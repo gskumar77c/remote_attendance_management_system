@@ -6,7 +6,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart'; 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';   
-import 'dart:math'; 
+import 'dart:math';
+import '../component/shared_data.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -267,7 +268,7 @@ class _LoginPageState extends State<LoginPage> {
     }; 
 
     String jasonStringLogin = json.encode(data);  
-    String url_login = "http://192.168.43.178:8080/api-token-auth/" ;
+    String url_login = urlApiTokenAuth ;
     var response = await http.post(url_login , body: data);      
     var jsonResponse;
     if(response.statusCode == 200) { 

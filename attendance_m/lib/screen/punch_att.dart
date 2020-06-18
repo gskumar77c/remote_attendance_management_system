@@ -252,7 +252,7 @@ class _LandingScreenState extends State<LandingScreen>
     Map<String, String> headers = {
       'Authorization': ('Token ' + sharedPreferences.getString('token')),
     };
-    Uri uri = Uri.parse("http://192.168.43.178:8080/images_upload/");
+    Uri uri = Uri.parse("http://192.168.43.178:8000/images_upload/");
     http.MultipartRequest request = new http.MultipartRequest('POST', uri);
     request.headers.addAll(headers);
 

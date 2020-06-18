@@ -6,6 +6,7 @@ import '../component/shared_data.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../component/jason_prac.dart';
+import '../component/shared_data.dart';
 
 formZip() async {
   Directory appDocDirectory = await getExternalStorageDirectory();
@@ -18,7 +19,7 @@ formZip() async {
 }
 
 getClassDetails(String subjectId, SharedPreferences sharedPreferences) async {
-  String urlData = 'http://192.168.43.178:8080/class_history/';
+  String urlData =  urlClassDetail;
   var credentials = {
     'Authorization': ('Token ' + sharedPreferences.getString('token')),
   };
@@ -47,7 +48,7 @@ getClassDetails(String subjectId, SharedPreferences sharedPreferences) async {
 getStudentDetails(String subjectId, String studentId) async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   print("hi=-=--------------------------");
-  String urlData = 'http://192.168.43.178:8080/student_wise/';
+  String urlData =  urlStudentDetail;
   var credentials = {
     'Authorization': ('Token ' + sharedPreferences.getString('token')),
   };
@@ -83,7 +84,7 @@ getStudentDetails(String subjectId, String studentId) async {
 }
 
 getTeacherDetails(SharedPreferences sharedPreferences) async {
-  String urlData = 'http://192.168.43.178:8080/teacher_profile/';
+  String urlData =  urlTeacherDetail;
   var credentials = {
     'Authorization': ('Token ' + sharedPreferences.getString('token')),
   };
