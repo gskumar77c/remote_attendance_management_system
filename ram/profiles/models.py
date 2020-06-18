@@ -40,7 +40,7 @@ class user(models.Model):
     
 
     def __str__(self):
-        return self.email
+        return self.email or ''
     
     
     
@@ -81,7 +81,7 @@ class student(models.Model):
     semester=models.IntegerField(verbose_name="Current semester")
 
     def __str__(self):
-        return self.user.email
+        return self.user.email or ''
 
 
 class instructor(models.Model):
@@ -90,14 +90,14 @@ class instructor(models.Model):
 
 
     def __str__(self):
-        return self.user.email
+        return self.user.email or ''
 
 class ta(models.Model):
     user=models.OneToOneField(user,on_delete=models.CASCADE,primary_key=True)
     department=models.ForeignKey(department_model,on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.user.email
+        return self.user.email or ''
 
 
 
@@ -107,7 +107,7 @@ def add_user(sender,instance,created, **kwargs):
     data=model_to_dict(instance)
     username=data["email"]
     password=data["password"]
-    User.objects.create_user(username,username,password)
+    # User.objects.create_user(username,username,password)
     print("created")
 
     # pass

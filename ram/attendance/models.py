@@ -35,7 +35,7 @@ class attendance_register(models.Model):
     def generate_attendance_verobose(cls,data):
 
         string=str(data["date"])+"."+str(data["slot"])+"."+str(data["course"])
-        return string
+        return string 
 
     @classmethod
     def details(cls,id):
@@ -54,7 +54,8 @@ class attendance_register(models.Model):
         return
         
     def __str__(self):
-        return self.course.course_id + "  |  " + self.slot.__str__() + "  |  " + str(self.date)
+        s=self.course.course_id + "  |  " + self.slot.__str__() + "  |  " + str(self.date) 
+        return s or " "
 
 
 
@@ -63,6 +64,6 @@ class api_queue(models.Model):
     status=models.CharField(max_length=10,choices=api_results,default='pending')
 
     def __str__(self):
-        return self.details
+        return self.details.attendance_verbose or ''
 
     

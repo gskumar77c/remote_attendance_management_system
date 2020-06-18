@@ -25,7 +25,7 @@ SECRET_KEY = 'af1e5+o@&=0&e%+l4z!q0gx-qa9-h_d-6o=u@b$02rrzqnmnlj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.43.145']
 
 
 # Application definition
@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'vidmi_interface',
     'background_task',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'crispy_forms',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -93,8 +95,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'ram',
         'USER': 'postgres',
-        #'PASSWORD': 'postgres',
-        'PASSWORD': 'raavan77c',
+        'PASSWORD': 'postgres',
+        # 'PASSWORD': 'raavan77c',
         'HOST': 'localhost',
         'PORT': '',
     }

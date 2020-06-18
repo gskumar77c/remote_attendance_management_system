@@ -14,7 +14,7 @@ class department(models.Model):
 	name=models.CharField(name="department",max_length=20,unique=True,null=False,primary_key=True)
 
 	def __str__(self):
-		return self.department
+		return self.department or ''
 
 class period_slot(models.Model):
 	day=models.CharField(verbose_name="week day",choices=week_days,max_length=10)
@@ -23,7 +23,7 @@ class period_slot(models.Model):
 	slot_verbose=models.CharField(max_length=50,primary_key=True)
 	
 	def __str__(self):
-		return self.slot_verbose
+		return self.slot_verbose or ''
 	# @classmethod
 	# def return_slot(cls,time):
 	# 	result=cls.objects.get(start_time<=time,end_time=>time)

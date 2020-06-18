@@ -3,7 +3,7 @@
 {% block content %}
 
 {% for ele in entries %}
-<div class="card" style="width: 50%;border-color: black;border-radius: 7px;" onclick="location.href='{% url 'attendance.details' pk=ele.entry.pk %}';"  >
+<div class="card" style="width: 60%;border-color: black;border-radius: 7px;" onclick="location.href='{% url 'attendance.details' pk=ele.entry.pk %}';"  >
     <div class="row" style="height: 1cm;" >
         <div class="col-md-5" >
             {{ ele.entry }}
@@ -12,14 +12,14 @@
         <div class="col-md-5"  >
             
             <div class="progress" style="height:1cm">
-                <div class="progress-bar" style="width:{{ele.percent}}%;height:1cm;">{{ele.percent}}</div>
+                <div class="progress-bar" style="width:{{ele.percent}}%;height:1cm;">{{ele.percent}}% Present</div>
             </div> 
         </div>
         <div class="col-md-2">
             {% if ele.status %}
             <div class="text" style="background-color: lightgreen;height: 1cm;text-align: center;border-color: black;border-radius: 7px;  ">Marked</div>
             {% else %}
-            <div class="text" style="background-color:lightsalmon;height: 1cm;text-align: center;border-color: black;border-radius: 7px; ">Pending</div>
+            <div class="text" style="background-color:lightcoral;height: 1cm;text-align: center;border-color: black;border-radius: 7px; ">Pending</div>
             {% endif%}
         </div>
     </div>

@@ -73,3 +73,17 @@ def configure_base(arg,name="Not logged in ",additional_dictionary={}):# use add
         data['id'] = additional_dictionary['id']
     
         return data
+
+
+    if arg=="studednt_attendance":
+        data["title"]="Attendance "
+        # data["navbar"]=[["Home","../institution"],["Logout","./logout"],["Courses","../courses"],["Attendance","../attendance"]]
+        data["type"]="Logout"
+        data["type_link"]=reverse("profiles.logout")
+        data["name"]=name
+        data["attended"]=additional_dictionary["attended"]
+        data['total'] = additional_dictionary['total']
+        data['percent'] = additional_dictionary['percent']
+        data['course'] = additional_dictionary['course']
+        
+        return data

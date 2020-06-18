@@ -10,6 +10,7 @@ import datetime
 from .page_config import configure_base
 # Create your views here.
 from django.urls import reverse
+# from courses.models import course as course_model
 
 
 def all_courses(request):
@@ -87,6 +88,10 @@ def show_floated_courses(request):
 					if q.__len__()==0:
 						reqcourse = models.course_ta_log(course = course,timestamp = date1,name = name,action=action)
 						reqcourse.save()
+						## nikhil
+						course.status="floating"
+						course.save()
+						##
 					else :
 						for ele in q:
 							message_string = message_string + f"already {ele.action}  in {course.course_id} , \n"
@@ -106,6 +111,10 @@ def show_floated_courses(request):
 					if q.__len__()==0:
 						reqcourse = models.course_instructor_log(course = course,timestamp = date1,name = name,action=action)
 						reqcourse.save()
+						## nikhil
+						course.status="floating"
+						course.save()
+						##
 					else :
 						for ele in q:
 							message_string = message_string + f"already {ele.action} in {course.course_id} , \n"
@@ -117,7 +126,7 @@ def show_floated_courses(request):
 	if qtype == 'student':
 		floated_courses = models.course.objects.filter(status='floating').order_by('department')
 	else :
-		floated_courses = models.course.objects.filter().order_by('department')
+		floated_courses = models.course.objects.filter(status='closed').order_by('department')
 	data['courses'] = list(floated_courses)
 	return render(request,'floatedcourses.html',data)
 
@@ -166,13 +175,12 @@ def enrolled_courses(request):
 	pending_courses = current_list.filter(name__user__email=username,action='requested')
 	completed_courses = current_list.filter(name__user__email=username,action='completed')
 	failed_courses = current_list.filter(name__user__email=username,action='failed')
-	print(current_list)
-	print(enrolled_courses)
-	print(pending_courses)
+	dropped_courses = current_list.filter(name__user__email=username,action='dropped')
 	data['completed_courses'] = list(completed_courses)
 	data['failed_courses'] = list(failed_courses)
 	data['pending_courses'] = list(pending_courses)
 	data['enrolled_courses'] = list(enrolled_courses)
+	data['dropped_courses'] = list(dropped_courses)
 	return render(request,'enrolled_courses.html',data)
 
 
